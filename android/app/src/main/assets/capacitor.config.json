@@ -1,0 +1,6 @@
+{
+	"appId": "com.drivers.busride",
+	"appName": "BusRide Driver",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

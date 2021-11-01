@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">BusRide Driver</string>
+    <string name="title_activity_main">BusRide Driver</string>
+    <string name="package_name">com.drivers.busride</string>
+    <string name="custom_url_scheme">com.drivers.busride</string>
+</resources>

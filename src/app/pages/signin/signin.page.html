@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Sign In</ion-title>
+
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <div style="background-color: white; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+    <ion-grid style="margin-top: 30%;">
+      <ion-row>
+        <ion-col size="12" style="text-align: center;">
+          <ion-label>Haven't created an account? </ion-label>
+          <ion-label color="ourtheme" (click)="navigate()">Sign up here</ion-label>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12">
+          <ion-item class="input" *ngIf="!isReset">
+            <ion-label color="sec" position="stacked">Email</ion-label>
+            <ion-input style="font-weight: bold; font-size: 91%;" enterkeyhint="next" [(ngModel)]="email" type="email">
+            </ion-input>
+          </ion-item>
+
+          <ion-item class="input" *ngIf="!isReset">
+            <ion-label color="sec" position="stacked">Password</ion-label>
+            <ion-input style="font-weight: bold; font-size: 91%;" enterkeyhint="go" [(ngModel)]="password"
+              type="password"></ion-input>
+          </ion-item>
+
+          <button
+            style="width: 100%; height: 40px; color: #fff;background-color: #04081f; border-radius: 15px; margin-top: 10px; margin-bottom: 10px;">
+            Sign In
+          </button>
+
+          <!-- <ion-button class="button" style="border-radius: 20px;" size="medium" *ngIf="!isReset" (click)="signin()"
+            expand="block" color="sec">
+            <span *ngIf="!auth.clicked">Sign In</span>
+            <ion-spinner *ngIf="auth.clicked" name="bubbles"></ion-spinner>
+          </ion-button> -->
+          <div style="text-align: center;" *ngIf="!isReset">
+            <ion-label>Forgot Password? </ion-label>
+            <ion-label color="ourtheme" (click)="reset()">Click here</ion-label>
+          </div>
+
+          <div *ngIf="isReset">
+            <ion-item>
+              <ion-label color="ourtheme" position="floating">Email</ion-label>
+              <ion-input style="font-weight: bold; font-size: 91%;" enterkeyhint="go" [(ngModel)]="email" type="email">
+              </ion-input>
+            </ion-item>
+            <ion-button (click)="resetPassword()" expand="block" color="ourtheme"><span>Reset</span></ion-button>
+            <ion-button style="margin-top: 10px;" (click)="cancel()" expand="block" color="light"><span>Cancel</span>
+            </ion-button>
+
+          </div>
+
+
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+
+  </div>
+
+</ion-content>

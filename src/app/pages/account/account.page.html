@@ -1,0 +1,116 @@
+<ion-header>
+  <ion-toolbar color="ourtheme">
+    <ion-title>Account</ion-title>
+
+    <ion-buttons slot="start">
+      <ion-back-button>
+     
+      </ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="editInfor()">
+        {{editClose}}
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="ourtheme">
+
+
+<div style="text-align: center;">
+  <ion-avatar style="height: 150px; width: 150px; margin: auto; margin-top: 19px;">
+    <img *ngIf="!acs.user.imgURL" [src]="defaultPic">
+    <img *ngIf="acs.user.imgURL != ''" [src]="acs.user.imgURL">
+  </ion-avatar>
+
+  <div style="position: absolute; z-index: 500; top: 125px; left: 58%;">
+    <button id="edit" (click)="edit($event)" mat-mini-fab  style="background-color: white;">
+      <mat-icon style="color: #031b36">camera_alt</mat-icon>
+    </button>
+  </div>
+  <span style="margin-top: 5px; font-weight: 500;">{{acs.user.email}}</span>
+</div>
+  
+
+<div style="background-color: white; padding-top: 10px; padding-left: 10px; padding-right: 10px; margin-top: 10px; height: 100%;border-top-left-radius: 10px; border-top-right-radius: 10px;">
+  <form [formGroup]="signupForm">
+    <ion-item>
+      <ion-label color="ourtheme" position="floating">First Name</ion-label>
+      <ion-input style="font-weight: bold; font-size: 91%;" [disabled]="!isEditable"  (ionInput)="fnameEnable()" formControlName="firstname" required enterkeyhint="next" ></ion-input>
+    
+    </ion-item>
+
+    <div *ngIf="fenabled">
+   
+      <mat-error *ngIf="firstname.hasError('required') ">
+        <small style="color: red; margin-left: 5px;">First name is <strong><span style="letter-spacing: .5px;">required</span></strong></small>
+      </mat-error>
+
+      <mat-error *ngIf="firstname.hasError('pattern')">
+        <small style="color: red; margin-left: 5px;" errors>First name must not have a special charector or a number</small>
+      </mat-error>
+
+      <mat-error *ngIf="firstname.hasError('minlength')">
+        <small style="color: red; margin-left: 5px;" errors>First name must have atleast 3 letters</small>
+      </mat-error>
+    </div>
+     
+
+    <ion-item>
+      <ion-label color="ourtheme" position="floating">Last Name</ion-label>
+      <ion-input style="font-weight: bold; font-size: 91%;" [disabled]="!isEditable"  (ionInput)="lnameEnable()" formControlName="lastname" enterkeyhint="next"></ion-input>
+    </ion-item>
+
+    <div *ngIf="lenabled">
+   
+      <mat-error *ngIf="lastname.hasError('required') ">
+        <small style="color: red; margin-left: 5px;">Last name is <strong><span style="letter-spacing: .5px;">required</span></strong></small>
+      </mat-error>
+
+      <mat-error *ngIf="lastname.hasError('pattern')">
+        <small style="color: red; margin-left: 5px;" errors>Last name must not have a special charector or a number</small>
+      </mat-error>
+
+      <mat-error *ngIf="lastname.hasError('minlength')">
+        <small style="color: red; margin-left: 5px;" errors>Last name must have atleast 3 letters</small>
+      </mat-error>
+    </div>
+  
+    <ion-item>
+      <ion-label color="ourtheme" position="floating">Student Number</ion-label>
+      <ion-input style="font-weight: bold; font-size: 91%;" [disabled]="!isEditable" (ionInput)="phoneEnable()" formControlName="studentNumber" type="number" max="9" enterkeyhint="next">
+  
+      </ion-input>
+      
+    </ion-item>
+
+    <div *ngIf="stenabled">
+
+      <mat-error *ngIf="studentNumber.hasError('required')">
+        <small errors style="color: red; margin-left: 5px;" errors>Student number is <strong><span style="letter-spacing: .5px;">required</span></strong></small>
+      </mat-error>
+
+      <mat-error *ngIf="studentNumber.hasError('minlength')">
+        <small style="color: red; margin-left: 5px;" errors>Student number must have 9 digits</small>
+      </mat-error>
+
+      <mat-error *ngIf="studentNumber.hasError('maxlength')">
+        <small style="color: red; margin-left: 5px;" errors>Student number must have 9 digits</small>
+      </mat-error>
+
+      <mat-error *ngIf="studentNumber.hasError('pattern')">
+        <small style="color: red; margin-left: 5px;" errors>Student number must have 9 digits</small>
+      </mat-error>
+
+    </div>
+  
+  </form>
+
+  <ion-button [disabled]="!isEditable || signupForm.status == 'INVALID'" size="medium" expand="block" color="ourtheme" (click)="update()">Update</ion-button>
+
+</div>
+  
+
+</ion-content>

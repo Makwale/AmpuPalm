@@ -1,0 +1,18 @@
+{
+  "targets": {
+    "bus-project-52efc": {
+      "hosting": {
+        "app": [
+          "bus-project-52efc"
+        ]
+      }
+    },
+    "bus-project-52efc": {
+      "hosting": {
+        "app": [
+          "bus-project-52efc"
+        ]
+      }
+    }
+  }
+}

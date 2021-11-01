@@ -1,0 +1,126 @@
+<ion-header>
+  <ion-toolbar color="ourtheme">
+    <ion-title>Search Bus</ion-title>
+
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()"><ion-icon name="arrow-back-outline"></ion-icon></ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  
+  <ion-grid style="position: fixed; top: 10%; z-index: 100; background-color: #fff; width: 100%;">
+    <ion-row>
+      <ion-col size="6">
+        <ion-item>
+          <ion-label color="ourtheme" position="floating">From</ion-label>
+          <ion-select [(ngModel)]="source" (ionChange)="searchBus()" cancelText="Cancel" okText="Done">
+            <ion-select-option value="Sosh South">Sosh South</ion-select-option>
+            <ion-select-option value="Sosh North">Sosh North</ion-select-option>
+            <ion-select-option value="Pta Main">Pta Main</ion-select-option>
+            <ion-select-option value="Arcadia">Arcadia</ion-select-option>
+            <ion-select-option value="Art">Art</ion-select-option>
+            <ion-select-option value="Garankuwa">Garankuwa</ion-select-option>
+            <ion-select-option value="Valotorque Res">Valotorque Res</ion-select-option>
+          </ion-select>
+        </ion-item>
+      
+      </ion-col>
+
+      <ion-col size="6">
+        <ion-item>
+          <ion-label color="ourtheme" position="floating">To</ion-label>
+          <ion-select [(ngModel)]="destination" (ionChange)="searchBus()" cancelText="Cancel" okText="Done">
+            <ion-select-option value="Sosh South">Sosh South</ion-select-option>
+            <ion-select-option value="Sosh North">Sosh North</ion-select-option>
+            <ion-select-option value="Pta Main">Pta Main</ion-select-option>
+            <ion-select-option value="Arcadia">Arcadia</ion-select-option>
+            <ion-select-option value="Art">Art</ion-select-option>
+            <ion-select-option value="Garankuwa">Garankuwa</ion-select-option>
+            <ion-select-option value="Valotorque Res">Valotorque Res</ion-select-option>
+          </ion-select>
+        </ion-item>
+      
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="6">
+          <ion-item>
+            <ion-label color="ourtheme" position="floating">Date</ion-label>
+            <ion-input type="date" (ionChange)="searchBus()" [(ngModel)]="date" ></ion-input>
+          </ion-item>
+
+      </ion-col>
+      <ion-col size="6">
+
+        <ion-item>
+          <ion-label color="ourtheme" position="floating">Time</ion-label>
+          <ion-input (ionChange)="searchBus()" [(ngModel)]="time" type="time"></ion-input>
+        </ion-item>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content refreshing-spinner="bubbles"  pulling-text="Pull to refresh"></ion-refresher-content>
+  </ion-refresher>
+
+  <div style="margin-top: 153px;">
+ 
+    <ion-card  *ngFor="let slot of slots" class="card"> 
+      <ion-grid>
+        <ion-row>
+          <ion-col size="5">
+            <ion-label>From: {{slot.from}}</ion-label>
+          </ion-col>
+          <ion-col size="2" style="text-align: center;">
+            <ion-icon size="medium" name="swap-horizontal-outline"></ion-icon>
+          </ion-col>
+    
+          <ion-col size="5">
+            <ion-label>To: {{slot.to}}</ion-label>
+          </ion-col>
+        </ion-row>
+    
+        <ion-row>
+          <ion-col size="5">
+            <ion-label>Date: {{slot.date | date: 'mediumDate'}}</ion-label>
+          </ion-col>
+          <ion-col size="2">
+              
+          </ion-col>
+    
+          <ion-col size="5">
+            <ion-label>Time: {{slot.date | date: 'shortTime'}}</ion-label>
+          </ion-col>
+        </ion-row>
+    
+        <ion-row>
+          <ion-col size="5">
+            <ion-label>Seats Avail: {{slot.availableSeats}}</ion-label>
+          </ion-col>
+          <ion-col size="2">
+            
+          </ion-col>
+    
+          <ion-col size="5">
+            <ion-label>Seats Booked: {{slot.bookedSeats}}</ion-label>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      
+      <ion-button class="card-button" size="small" color="ourtheme" expand="block" (click)="book(slot)">Book</ion-button>
+    </ion-card>
+    <h3 *ngIf="slots.length == 0" style="text-align: center; color: #031b362f; margin-top: 300px; font-weight: 600;">No available slots for your search</h3>
+  </div>
+
+
+  
+
+  
+
+
+</ion-content>

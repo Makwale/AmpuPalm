@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Ambi Palm</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button *ngIf="acs.loginStatus" (click)="profile($event)">
+        <ion-avatar style="height: 25px; width: 25px; margin-right: 3px;">
+          <img *ngIf="!acs.user.imgURL" [src]="defaultPic">
+          <img *ngIf="acs.user.imgURL !== ''" [src]="acs.user.imgURL">
+        </ion-avatar>
+        <ion-icon name="chevron-down"></ion-icon>
+      </ion-button>
+
+      <ion-button (click)="searchbus()">
+        <ion-icon name="search-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-tabs>
+    <ion-tab-bar color="sec" slot="bottom">
+
+      <ion-tab-button tab="home">
+        <ion-icon size="small" name="home-outline"></ion-icon>
+      </ion-tab-button>
+
+      <ion-tab-button *ngIf="acs.loginStatus" tab="account">
+        <ion-icon size="small" name="person-outline"></ion-icon>
+      </ion-tab-button>
+
+      <ion-tab-button *ngIf="!acs.loginStatus" tab="signin">
+        <ion-icon size="small" name="log-in-outline"></ion-icon>
+      </ion-tab-button>
+
+      <ion-tab-button *ngIf="!acs.loginStatus" tab="signup">
+        <ion-icon size="small" name="person-add-outline"></ion-icon>
+      </ion-tab-button>
+
+      <ion-tab-button *ngIf="acs.loginStatus" tab="bookings">
+        <ion-icon size="small" name="list-outline"></ion-icon>
+      </ion-tab-button>
+
+      <ion-tab-button tab="map">
+        <ion-icon size="small" name="map-outline"></ion-icon>
+      </ion-tab-button>
+    </ion-tab-bar>
+
+  </ion-tabs>
+</ion-content>
