@@ -12,3 +12,12 @@ img{
 .button{
     border-radius: 15px;
 }
+ion-grid{
+    margin: 0;
+    position: absolute;
+    width: 95%;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+}
