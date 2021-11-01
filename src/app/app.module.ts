@@ -23,13 +23,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyCvsvYeDkWYPNVJdVtdFvt7PpQirycbaxI',
-  authDomain: 'bus-project-52efc.firebaseapp.com',
-  projectId: 'bus-project-52efc',
-  storageBucket: 'bus-project-52efc.appspot.com',
-  messagingSenderId: '789865770058',
-  appId: '1:789865770058:web:7fa8ee99ecfaa262ad4ab3',
-  measurementId: 'G-Z3FSFN8C7X'
+  apiKey: 'AIzaSyCsKBwG7VSGwF9G0SMTLr0ZMjdHPubr9jE',
+  authDomain: 'ampipalm.firebaseapp.com',
+  projectId: 'ampipalm',
+  storageBucket: 'ampipalm.appspot.com',
+  messagingSenderId: '66175782572',
+  appId: '1:66175782572:web:f201d4fbf5a060e423d909',
+  measurementId: 'G-7Q1KT83HBR'
 };
 
 @NgModule({
