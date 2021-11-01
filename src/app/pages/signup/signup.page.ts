@@ -41,7 +41,6 @@ export class SignupPage implements OnInit, OnDestroy {
     private toastController: ToastController) { }
 
   ngOnInit() {
-    this.auth.getSignedUpStudents();
     this.signupForm = new FormBuilder().group({
       firstname: ['', [Validators.required, Validators.minLength(3), Validators.pattern('[a-zA-Z ]*')]],
       lastname: ['', [Validators.required, Validators.minLength(3), Validators.pattern('[a-zA-Z ]*')]],
@@ -104,8 +103,7 @@ export class SignupPage implements OnInit, OnDestroy {
   async signup() {
 
     if (this.signupForm.value.password === this.signupForm.value.cpassword) {
-      this.auth.signup(this.signupForm.value.firstname, this.signupForm.value.lastname,
-        this.signupForm.value.studentNumber, this.signupForm.value.email, this.signupForm.value.password);
+      this.auth.signup(this.signupForm, this.physAddressForm);
     } else {
       const toast = await this.toastController.create({
         message: 'Passwords do not match',

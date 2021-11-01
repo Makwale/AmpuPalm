@@ -8,6 +8,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatButtonModule } from '@angular/material/button';
 @NgModule({
   imports: [
     CommonModule,
@@ -17,7 +18,8 @@ import { MatStepperModule } from '@angular/material/stepper';
     ReactiveFormsModule,
     MatInputModule,
     MatFormFieldModule,
-    MatStepperModule
+    MatStepperModule,
+    MatButtonModule
   ],
   declarations: [SignupPage],
   providers: [FormBuilder]

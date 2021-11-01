@@ -19,102 +19,85 @@ import { ProfilePage } from '../profile/profile.page';
   styleUrls: ['./menu.page.scss'],
 })
 export class MenuPage implements OnInit {
-  
-  defaultPic = "../../../assets/profile.png"
-  
+
+  defaultPic = '../../../assets/profile.png';
+
   constructor(public modalController: ModalController,
     private menu: MenuController, private router: Router,
-    private dbs: DatabaseService, private acs: AccountService, 
+    private dbs: DatabaseService, private acs: AccountService,
     private afa: AngularFireAuth, public popoverController: PopoverController,
     private oneSignal: OneSignal, private auth: AuthService) { }
 
   ngOnInit() {
-
-    this.oneSignal.startInit(this.auth.app_id, this.auth.project_id)
-    this.oneSignal.endInit()
-
-    this.oneSignal.getIds().then(res => {
-      this.auth.playerid =  res.userId
-    })
-    this.dbs.getSlots();
-    this.dbs.getBookings();
   }
 
-  
-  toggle(){
-    
-    this.menu.toggle()
-    
+  toggle() {
+    this.menu.toggle();
   }
 
-  navigate(route){
-    
-    this.menu.toggle()
-    if(route == "")
-      this.router.navigateByUrl("")
-    else
-      this.router.navigateByUrl(route)
+  navigate(route) {
+    this.menu.toggle();
+    if (route === '') { this.router.navigateByUrl(''); }
+    else { this.router.navigateByUrl(route); };
   }
 
-  navigatef(route){
+  navigatef(route) {
 
-    if(route == "")
-      this.router.navigateByUrl("")
-    else
-      this.router.navigateByUrl(route)
+    if (route === '') { this.router.navigateByUrl(''); }
+    else { this.router.navigateByUrl(route); };
   }
 
-  navigateToMap(){
-    this.router.navigateByUrl("map")
+  navigateToMap() {
+    this.router.navigateByUrl('map');
   }
 
-  signout(){
+  signout() {
     this.afa.signOut().then(res => {
       this.acs.loginStatus = false;
-      this.router.navigateByUrl("menu")
-      this.dbs.bookings = []
-      this.menu.toggle()
-    })
+      this.router.navigateByUrl('menu');
+      this.dbs.bookings = [];
+      this.menu.toggle();
+    });
   }
 
-  signoutf(){
+  signoutf() {
     this.afa.signOut().then(res => {
       this.acs.loginStatus = false;
-      this.router.navigateByUrl("menu")
-      this.dbs.bookings = []
-    })
+      this.router.navigateByUrl('menu');
+      this.dbs.bookings = [];
+    });
   }
 
-   async edit(event){
+  async edit(event) {
     const popover = await this.popoverController.create({
       component: EditpicPage,
       cssClass: 'my-custom-class',
       translucent: true,
-      event: event
+      event
     });
     await popover.present();
 
   }
 
-  async profile(event){
+  async profile(event) {
     const popover = await this.popoverController.create({
       component: ProfilePage,
       cssClass: 'my-custom-class',
       translucent: true,
-      event: event
+      event
     });
     await popover.present();
 
   }
 
-  async searchbus(){
-    
+  async searchbus() {
+
     const modal = await this.modalController.create({
       component: SearchbusPage,
-     
+
     });
     return await modal.present();
-}
+  }
 
 
   //-25.731898523213264, 28.162400726583623

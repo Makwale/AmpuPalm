@@ -103,6 +103,9 @@
               type="password"></ion-input>
           </ion-item>
         </form>
+        <div style="margin-top: 14px;">
+          <button mat-button matStepperNext>Next</button>
+        </div>
       </mat-step>
       <!-- Physical address -->
       <mat-step label="Fill out your physical address">
@@ -180,6 +183,11 @@
             </mat-error>
           </div>
         </form>
+        <div style="margin-top: 14px;">
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+
       </mat-step>
       <!-- Next of kin -->
       <mat-step label="Fill out your next of kin details">
@@ -203,13 +211,24 @@
 
           </div>
         </form>
+        <div style="margin-top: 14px;">
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+
+      </mat-step>
+      <mat-step label="Done">
+        <div style="text-align: center;">
+          <button (click)="signup()" class="button">
+            Sign Up
+          </button>
+        </div>
+        <div style="margin-top: 14px;">
+          <button mat-button matStepperPrevious>Back</button>
+        </div>
       </mat-step>
     </mat-stepper>
-    <div style="text-align: center;">
-      <button class="button">
-        Sign Up
-      </button>
-    </div>
+
     <!-- <ion-button (click)="signup()" [disabled]="signupForm.status === 'INVALID'" expand="block" color="ourtheme"><span
         *ngIf="!auth.clicked">Sign Up</span>
       <ion-spinner *ngIf="auth.clicked" name="bubbles"></ion-spinner>
