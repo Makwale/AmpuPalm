@@ -1,143 +1,319 @@
-<ion-header>
-  <ion-toolbar color="ourtheme">
-    <ion-title>Sign Up</ion-title>
-
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-
-  <div style="position: fixed;" >
-    <img src="../../../assets/ionic.jpg">
-    <div style="position: absolute; width: 100%; height: 299px; background-color: #031b36;;top: 0%; z-tabindex: 100;"></div>
-  </div>
-
-  <div style="position: absolute; z-tabindex: 150; top: 20%; width: 100%; background-color: white; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+  <div style="width: 100%; background-color: white; border-top-left-radius: 10px; border-top-right-radius: 10px;">
 
     <div style="text-align: center; margin-top: 20px;">
-      <ion-label>Already have an account? </ion-label> <ion-label color="ourtheme" (click)="navigate()">Sign in here</ion-label>
-  
-    </div>
-    
-    <form [formGroup]="signupForm">
-      <ion-item>
-        <ion-label color="ourtheme" position="floating">First Name</ion-label>
-        <ion-input style="font-weight: bold; font-size: 91%;" tabindex="0"  (ionInput)="fnameEnable()" formControlName="firstname" required enterkeyhint="next" ></ion-input>
-      
-      </ion-item>
-  
-      <div *ngIf="fenabled">
-     
-        <mat-error *ngIf="firstname.hasError('required') ">
-          <small style="color: red; margin-left: 5px;">First name is <strong><span style="letter-spacing: .5px;">required</span></strong></small>
-        </mat-error>
-  
-        <mat-error *ngIf="firstname.hasError('pattern')">
-          <small style="color: red; margin-left: 5px;" errors>First name must not have a special charector or a number</small>
-        </mat-error>
-  
-        <mat-error *ngIf="firstname.hasError('minlength')">
-          <small style="color: red; margin-left: 5px;" errors>First name must have atleast 3 letters</small>
-        </mat-error>
-      </div>
-       
-  
-      <ion-item>
-        <ion-label color="ourtheme" position="floating">Last Name</ion-label>
-        <ion-input style="font-weight: bold; font-size: 91%;" tabindex="1" (ionInput)="lnameEnable()" formControlName="lastname" enterkeyhint="next"></ion-input>
-      </ion-item>
-  
-      <div *ngIf="lenabled">
-     
-        <mat-error *ngIf="lastname.hasError('required') ">
-          <small style="color: red; margin-left: 5px;">Last name is <strong><span style="letter-spacing: .5px;">required</span></strong></small>
-        </mat-error>
-  
-        <mat-error *ngIf="lastname.hasError('pattern')">
-          <small style="color: red; margin-left: 5px;" errors>Last name must not have a special charector or a number</small>
-        </mat-error>
-  
-        <mat-error *ngIf="lastname.hasError('minlength')">
-          <small style="color: red; margin-left: 5px;" errors>Last name must have atleast 3 letters</small>
-        </mat-error>
-      </div>
-    
-      <ion-item>
-        <ion-label color="ourtheme" position="floating">Student Number</ion-label>
-        <ion-input style="font-weight: bold; font-size: 91%;" tabindex="2" (ionInput)="phoneEnable()" formControlName="studentNumber" type="number" max="9" enterkeyhint="next">
-    
-        </ion-input>
-        
-      </ion-item>
-  
-      <div *ngIf="stenabled">
-  
-        <mat-error *ngIf="studentNumber.hasError('required')">
-          <small errors style="color: red; margin-left: 5px;" errors>Student number is <strong><span style="letter-spacing: .5px;">required</span></strong></small>
-        </mat-error>
-  
-        <mat-error *ngIf="studentNumber.hasError('minlength')">
-          <small style="color: red; margin-left: 5px;" errors>Student number must have 9 digits</small>
-        </mat-error>
-  
-        <mat-error *ngIf="studentNumber.hasError('maxlength')">
-          <small style="color: red; margin-left: 5px;" errors>Student number must have 9 digits</small>
-        </mat-error>
-  
-        <mat-error *ngIf="studentNumber.hasError('pattern')">
-          <small style="color: red; margin-left: 5px;" errors>Student number must have 9 digits</small>
-        </mat-error>
-  
-      </div>
-    
-      <ion-item>
-        <ion-label color="ourtheme" position="floating">Email</ion-label>
-        <ion-input style="font-weight: bold; font-size: 91%;" tabindex="4" type="password" (ionInput)="emailEnable()" formControlName="email" type="email" enterkeyhint="next"></ion-input>
-      </ion-item>
-  
-      <div *ngIf="emenabled">
-     
-        <mat-error *ngIf="email.hasError('required') ">
-          <small style="color: red; margin-left: 5px;">Email is <strong><span style="letter-spacing: .5px;">required</span></strong></small>
-        </mat-error>
-        <mat-error *ngIf="email.hasError('pattern') ">
-          <small style="color: red; margin-left: 5px;">Invalid email address</small>
-        </mat-error>
-  
-      </div>
-    
-      <ion-item>
-        <ion-label color="ourtheme" position="floating">Password</ion-label>
-        <ion-input style="font-weight: bold; font-size: 91%;" tabindex="6" type="password" (ionInput)="passEnable()" formControlName="password" enterkeyhint="next"></ion-input>
-      </ion-item>
-  
-      <div *ngIf="passenabled">
-     
-        <mat-error *ngIf="password.hasError('required') ">
-          <small style="color: red; margin-left: 5px;">Password is <span style="letter-spacing: .5px;"><strong>required</strong></span></small>
-        </mat-error>
-  
-        <mat-error *ngIf="password.hasError('pattern')">
-          <small style="color: red; margin-left: 5px;" errors>Password must be atleast 8 charectors in length. With atleast 1 uppercase and lowercase, special charector and a number</small>
-        </mat-error>
-  
-      </div>
-    
-      <ion-item>
-        <ion-label color="ourtheme" position="floating">Confirm Password</ion-label>
-        <ion-input style="font-weight: bold; font-size: 91%;" formControlName="cpassword" enterkeyhint="done" type="password"></ion-input>
-      </ion-item>
-  
-    
-    </form>
-  
-    <ion-button (click)="signup()" [disabled]="signupForm.status == 'INVALID'"  expand="block" color="ourtheme"><span *ngIf="!auth.clicked">Sign Up</span> <ion-spinner *ngIf="auth.clicked" name="bubbles"></ion-spinner></ion-button>
-  
-  
+      <ion-label>Already have an account? </ion-label>
+      <ion-label color="ourtheme" (click)="navigate()">Sign in here</ion-label>
 
+    </div>
+
+    <mat-stepper orientation="vertical" linear>
+      <mat-step label="Fill out your account details">
+        <form [formGroup]="signupForm">
+          <ion-item class="input">
+            <ion-label color="sec" position="stacked">First Name</ion-label>
+            <ion-input style="font-weight: bold; font-size: 91%;" tabindex="0" (ionInput)="fnameEnable()"
+              formControlName="firstname" required enterkeyhint="next"></ion-input>
+
+          </ion-item>
+
+          <div *ngIf="fenabled">
+
+            <mat-error *ngIf="firstname.hasError('required') ">
+              <small style="color: red; margin-left: 5px;">First name is <strong><span
+                    style="letter-spacing: .5px;">required</span></strong></small>
+            </mat-error>
+
+            <mat-error *ngIf="firstname.hasError('pattern')">
+              <small style="color: red; margin-left: 5px;" errors>First name must not have a special charector or a
+                number</small>
+            </mat-error>
+
+            <mat-error *ngIf="firstname.hasError('minlength')">
+              <small style="color: red; margin-left: 5px;" errors>First name must have atleast 3 letters</small>
+            </mat-error>
+          </div>
+
+
+          <ion-item class="input">
+            <ion-label color="sec" position="stacked">Last Name</ion-label>
+            <ion-input style="font-weight: bold; font-size: 91%;" tabindex="1" (ionInput)="lnameEnable()"
+              formControlName="lastname" enterkeyhint="next"></ion-input>
+          </ion-item>
+
+          <div *ngIf="lenabled">
+
+            <mat-error *ngIf="lastname.hasError('required') ">
+              <small style="color: red; margin-left: 5px;">Last name is <strong><span
+                    style="letter-spacing: .5px;">required</span></strong></small>
+            </mat-error>
+
+            <mat-error *ngIf="lastname.hasError('pattern')">
+              <small style="color: red; margin-left: 5px;" errors>Last name must not have a special charector or a
+                number</small>
+            </mat-error>
+
+            <mat-error *ngIf="lastname.hasError('minlength')">
+              <small style="color: red; margin-left: 5px;" errors>Last name must have atleast 3 letters</small>
+            </mat-error>
+          </div>
+
+          <ion-item class="input">
+            <ion-label color="sec" position="stacked">Email</ion-label>
+            <ion-input style="font-weight: bold; font-size: 91%;" tabindex="4" type="password"
+              (ionInput)="emailEnable()" formControlName="email" type="email" enterkeyhint="next"></ion-input>
+          </ion-item>
+
+          <div *ngIf="emenabled">
+
+            <mat-error *ngIf="email.hasError('required') ">
+              <small style="color: red; margin-left: 5px;">Email is <strong><span
+                    style="letter-spacing: .5px;">required</span></strong></small>
+            </mat-error>
+            <mat-error *ngIf="email.hasError('pattern') ">
+              <small style="color: red; margin-left: 5px;">Invalid email address</small>
+            </mat-error>
+
+          </div>
+
+          <ion-item class="input">
+            <ion-label color="sec" position="stacked">Password</ion-label>
+            <ion-input style="font-weight: bold; font-size: 91%;" tabindex="6" type="password" (ionInput)="passEnable()"
+              formControlName="password" enterkeyhint="next"></ion-input>
+          </ion-item>
+
+          <div *ngIf="passenabled">
+
+            <mat-error *ngIf="password.hasError('required') ">
+              <small style="color: red; margin-left: 5px;">Password is <span
+                  style="letter-spacing: .5px;"><strong>required</strong></span></small>
+            </mat-error>
+
+            <mat-error *ngIf="password.hasError('pattern')">
+              <small style="color: red; margin-left: 5px;" errors>Password must be atleast 8 charectors in length. With
+                atleast 1 uppercase and lowercase, special charector and a number</small>
+            </mat-error>
+
+          </div>
+
+          <ion-item class="input">
+            <ion-label color="sec" position="stacked">Confirm Password</ion-label>
+            <ion-input style="font-weight: bold; font-size: 91%;" formControlName="cpassword" enterkeyhint="done"
+              type="password"></ion-input>
+          </ion-item>
+        </form>
+      </mat-step>
+      <mat-step label="Fill out your physical address">
+        <form [formGroup]="signupForm">
+          <ion-item class="input">
+            <ion-label color="sec" position="stacked">First Name</ion-label>
+            <ion-input style="font-weight: bold; font-size: 91%;" tabindex="0" (ionInput)="fnameEnable()"
+              formControlName="firstname" required enterkeyhint="next"></ion-input>
+
+          </ion-item>
+
+          <div *ngIf="fenabled">
+
+            <mat-error *ngIf="firstname.hasError('required') ">
+              <small style="color: red; margin-left: 5px;">First name is <strong><span
+                    style="letter-spacing: .5px;">required</span></strong></small>
+            </mat-error>
+
+            <mat-error *ngIf="firstname.hasError('pattern')">
+              <small style="color: red; margin-left: 5px;" errors>First name must not have a special charector or a
+                number</small>
+            </mat-error>
+
+            <mat-error *ngIf="firstname.hasError('minlength')">
+              <small style="color: red; margin-left: 5px;" errors>First name must have atleast 3 letters</small>
+            </mat-error>
+          </div>
+
+
+          <ion-item class="input">
+            <ion-label color="sec" position="stacked">Last Name</ion-label>
+            <ion-input style="font-weight: bold; font-size: 91%;" tabindex="1" (ionInput)="lnameEnable()"
+              formControlName="lastname" enterkeyhint="next"></ion-input>
+          </ion-item>
+
+          <div *ngIf="lenabled">
+
+            <mat-error *ngIf="lastname.hasError('required') ">
+              <small style="color: red; margin-left: 5px;">Last name is <strong><span
+                    style="letter-spacing: .5px;">required</span></strong></small>
+            </mat-error>
+
+            <mat-error *ngIf="lastname.hasError('pattern')">
+              <small style="color: red; margin-left: 5px;" errors>Last name must not have a special charector or a
+                number</small>
+            </mat-error>
+
+            <mat-error *ngIf="lastname.hasError('minlength')">
+              <small style="color: red; margin-left: 5px;" errors>Last name must have atleast 3 letters</small>
+            </mat-error>
+          </div>
+
+          <ion-item class="input">
+            <ion-label color="sec" position="stacked">Email</ion-label>
+            <ion-input style="font-weight: bold; font-size: 91%;" tabindex="4" type="password"
+              (ionInput)="emailEnable()" formControlName="email" type="email" enterkeyhint="next"></ion-input>
+          </ion-item>
+
+          <div *ngIf="emenabled">
+
+            <mat-error *ngIf="email.hasError('required') ">
+              <small style="color: red; margin-left: 5px;">Email is <strong><span
+                    style="letter-spacing: .5px;">required</span></strong></small>
+            </mat-error>
+            <mat-error *ngIf="email.hasError('pattern') ">
+              <small style="color: red; margin-left: 5px;">Invalid email address</small>
+            </mat-error>
+
+          </div>
+        </form>
+      </mat-step>
+      <mat-step label="Fill out your next of kin details">
+        <form [formGroup]="signupForm">
+          <ion-item class="input">
+            <ion-label color="sec" position="stacked">First Name</ion-label>
+            <ion-input style="font-weight: bold; font-size: 91%;" tabindex="0" (ionInput)="fnameEnable()"
+              formControlName="firstname" required enterkeyhint="next"></ion-input>
+
+          </ion-item>
+
+          <div *ngIf="fenabled">
+
+            <mat-error *ngIf="firstname.hasError('required') ">
+              <small style="color: red; margin-left: 5px;">First name is <strong><span
+                    style="letter-spacing: .5px;">required</span></strong></small>
+            </mat-error>
+
+            <mat-error *ngIf="firstname.hasError('pattern')">
+              <small style="color: red; margin-left: 5px;" errors>First name must not have a special charector or a
+                number</small>
+            </mat-error>
+
+            <mat-error *ngIf="firstname.hasError('minlength')">
+              <small style="color: red; margin-left: 5px;" errors>First name must have atleast 3 letters</small>
+            </mat-error>
+          </div>
+
+
+          <ion-item class="input">
+            <ion-label color="sec" position="stacked">Last Name</ion-label>
+            <ion-input style="font-weight: bold; font-size: 91%;" tabindex="1" (ionInput)="lnameEnable()"
+              formControlName="lastname" enterkeyhint="next"></ion-input>
+          </ion-item>
+
+          <div *ngIf="lenabled">
+
+            <mat-error *ngIf="lastname.hasError('required') ">
+              <small style="color: red; margin-left: 5px;">Last name is <strong><span
+                    style="letter-spacing: .5px;">required</span></strong></small>
+            </mat-error>
+
+            <mat-error *ngIf="lastname.hasError('pattern')">
+              <small style="color: red; margin-left: 5px;" errors>Last name must not have a special charector or a
+                number</small>
+            </mat-error>
+
+            <mat-error *ngIf="lastname.hasError('minlength')">
+              <small style="color: red; margin-left: 5px;" errors>Last name must have atleast 3 letters</small>
+            </mat-error>
+          </div>
+
+          <ion-item class="input">
+            <ion-label color="sec" position="stacked">Email</ion-label>
+            <ion-input style="font-weight: bold; font-size: 91%;" tabindex="4" type="password"
+              (ionInput)="emailEnable()" formControlName="email" type="email" enterkeyhint="next"></ion-input>
+          </ion-item>
+
+          <div *ngIf="emenabled">
+
+            <mat-error *ngIf="email.hasError('required') ">
+              <small style="color: red; margin-left: 5px;">Email is <strong><span
+                    style="letter-spacing: .5px;">required</span></strong></small>
+            </mat-error>
+            <mat-error *ngIf="email.hasError('pattern') ">
+              <small style="color: red; margin-left: 5px;">Invalid email address</small>
+            </mat-error>
+
+          </div>
+        </form>
+      </mat-step>
+      <mat-step label="Fill out your next of kin physical address">
+        <form [formGroup]="signupForm">
+          <ion-item class="input">
+            <ion-label color="sec" position="stacked">First Name</ion-label>
+            <ion-input style="font-weight: bold; font-size: 91%;" tabindex="0" (ionInput)="fnameEnable()"
+              formControlName="firstname" required enterkeyhint="next"></ion-input>
+
+          </ion-item>
+          <div *ngIf="fenabled">
+
+            <mat-error *ngIf="firstname.hasError('required') ">
+              <small style="color: red; margin-left: 5px;">First name is <strong><span
+                    style="letter-spacing: .5px;">required</span></strong></small>
+            </mat-error>
+
+            <mat-error *ngIf="firstname.hasError('pattern')">
+              <small style="color: red; margin-left: 5px;" errors>First name must not have a special charector or a
+                number</small>
+            </mat-error>
+
+            <mat-error *ngIf="firstname.hasError('minlength')">
+              <small style="color: red; margin-left: 5px;" errors>First name must have atleast 3 letters</small>
+            </mat-error>
+          </div>
+          <ion-item class="input">
+            <ion-label color="sec" position="stacked">Last Name</ion-label>
+            <ion-input style="font-weight: bold; font-size: 91%;" tabindex="1" (ionInput)="lnameEnable()"
+              formControlName="lastname" enterkeyhint="next"></ion-input>
+          </ion-item>
+
+          <div *ngIf="lenabled">
+            <mat-error *ngIf="lastname.hasError('required') ">
+              <small style="color: red; margin-left: 5px;">Last name is <strong><span
+                    style="letter-spacing: .5px;">required</span></strong></small>
+            </mat-error>
+
+            <mat-error *ngIf="lastname.hasError('pattern')">
+              <small style="color: red; margin-left: 5px;" errors>Last name must not have a special charector or a
+                number</small>
+            </mat-error>
+
+            <mat-error *ngIf="lastname.hasError('minlength')">
+              <small style="color: red; margin-left: 5px;" errors>Last name must have atleast 3 letters</small>
+            </mat-error>
+          </div>
+
+          <ion-item class="input">
+            <ion-label color="sec" position="stacked">Email</ion-label>
+            <ion-input style="font-weight: bold; font-size: 91%;" tabindex="4" type="password"
+              (ionInput)="emailEnable()" formControlName="email" type="email" enterkeyhint="next"></ion-input>
+          </ion-item>
+
+          <div *ngIf="emenabled">
+            <mat-error *ngIf="email.hasError('required') ">
+              <small style="color: red; margin-left: 5px;">Email is <strong><span
+                    style="letter-spacing: .5px;">required</span></strong></small>
+            </mat-error>
+            <mat-error *ngIf="email.hasError('pattern') ">
+              <small style="color: red; margin-left: 5px;">Invalid email address</small>
+            </mat-error>
+          </div>
+        </form>
+      </mat-step>
+    </mat-stepper>
+    <div style="text-align: center;">
+      <button class="button" style="">
+        Sign Up
+      </button>
+    </div>
+    <!-- <ion-button (click)="signup()" [disabled]="signupForm.status === 'INVALID'" expand="block" color="ourtheme"><span
+        *ngIf="!auth.clicked">Sign Up</span>
+      <ion-spinner *ngIf="auth.clicked" name="bubbles"></ion-spinner>
+    </ion-button> -->
   </div>
 
-  </ion-content>
+</ion-content>
