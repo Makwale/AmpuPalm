@@ -5,15 +5,12 @@
     <ion-buttons slot="end">
       <ion-button *ngIf="acs.loginStatus" (click)="profile($event)">
         <ion-avatar style="height: 25px; width: 25px; margin-right: 3px;">
-          <img *ngIf="!acs.user.imgURL" [src]="defaultPic">
-          <img *ngIf="acs.user.imgURL !== ''" [src]="acs.user.imgURL">
+          <img [src]="defaultPic">
+          <!-- <img *ngIf="acs.user.imgURL !== ''" [src]="acs.user.imgURL"> -->
         </ion-avatar>
         <ion-icon name="chevron-down"></ion-icon>
       </ion-button>
 
-      <ion-button (click)="searchbus()">
-        <ion-icon name="search-outline"></ion-icon>
-      </ion-button>
     </ion-buttons>
 
   </ion-toolbar>
@@ -23,7 +20,7 @@
   <ion-tabs>
     <ion-tab-bar color="sec" slot="bottom">
 
-      <ion-tab-button tab="home">
+      <ion-tab-button *ngIf="acs.loginStatus" tab="home">
         <ion-icon size="small" name="home-outline"></ion-icon>
       </ion-tab-button>
 

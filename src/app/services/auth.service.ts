@@ -33,29 +33,18 @@ export class AuthService {
   constructor(private afa: AngularFireAuth, private afs: AngularFirestore,
     private acs: AccountService, private router: Router, private dbs: DatabaseService,
     public alertController: AlertController,
-    private oneSignal: OneSignal, private toastController: ToastController) {
+    private toastController: ToastController) {
 
     // mapboxgl.accessToken = 'pk.eyJ1IjoibWFudWVsbWFrd2FsZSIsImEiOiJja2hsc3lmYWUyZzRnMnRsNnY2NWIyeGR6In0.1MGnfpXj_dV2QBO3SchfqA';
 
   }
 
   signIn(email, password) {
-    ;
-
     this.clicked = true;
 
     this.afa.signInWithEmailAndPassword(email, password)
       .then(res => {
-        this.afs.collection('Student').doc(res.user.uid).valueChanges().subscribe(data => {
-          // this.acs.user = new Student(res.user.uid, (data as Student).firstname, (data as Student).lastname, data.studentNumber,
-          // data.email, data.imgURL, data.playerid);
-          this.dbs.getBookings();
-
-          this.acs.loginStatus = true;
-          this.clicked = false;
-          this.router.navigateByUrl('');
-        });
-
+        this.router.navigateByUrl('/menu/home');
       }).catch(error => {
 
         this.clicked = false;

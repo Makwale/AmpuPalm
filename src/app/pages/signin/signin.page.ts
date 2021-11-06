@@ -21,7 +21,7 @@ export class SigninPage implements OnInit {
   }
 
   navigate() {
-    this.router.navigateByUrl('signup');
+    this.router.navigateByUrl('/menu/signup');
   }
 
   signin() {

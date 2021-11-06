@@ -219,8 +219,9 @@
       </mat-step>
       <mat-step label="Done">
         <div style="text-align: center;">
-          <button (click)="signup()" class="button">
-            Sign Up
+          <button [disabled]="signupForm.status === 'INVALID'" (click)="signup()" class="button">
+            <span *ngIf="!auth.clicked">Sign Up</span>
+            <ion-spinner *ngIf="auth.clicked" name="dots"></ion-spinner>
           </button>
         </div>
         <div style="margin-top: 14px;">
@@ -231,7 +232,7 @@
 
     <!-- <ion-button (click)="signup()" [disabled]="signupForm.status === 'INVALID'" expand="block" color="ourtheme"><span
         *ngIf="!auth.clicked">Sign Up</span>
-      <ion-spinner *ngIf="auth.clicked" name="bubbles"></ion-spinner>
+      <ion-spinner *ngIf="auth.clicked" name="dots"></ion-spinner>
     </ion-button> -->
   </div>
 

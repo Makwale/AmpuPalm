@@ -97,7 +97,7 @@ export class SignupPage implements OnInit, OnDestroy {
   get nextKinEmail() { return this.nextKinForm.get('nextKinEmail'); }
 
   navigate() {
-    this.router.navigateByUrl('signin');
+    this.router.navigateByUrl('/menu/signin');
   }
 
   async signup() {

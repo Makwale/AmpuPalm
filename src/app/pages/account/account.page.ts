@@ -23,88 +23,107 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 export class AccountPage implements OnInit {
 
   signupForm: FormGroup;
+  physAddressForm: FormGroup;
+  nxtKinForm: FormGroup;
   matcher = new MyErrorStateMatcher();
   fenabled = false;
   lenabled = false;
   stenabled = false;
   isEditable = false;
-  editClose = "Edit"
-  defaultPic = "../../../assets/profile.png"
+  editClose = 'Edit';
+  defaultPic = '../../../assets/profile.png';
 
-  
+
   constructor(public popoverController: PopoverController,
-     private dbs: DatabaseService, private acs: AccountService) { }
+    private dbs: DatabaseService,
+    private acs: AccountService,
+    private auth: AuthService) { }
 
   ngOnInit() {
     this.signupForm = new FormBuilder().group({
       firstname: ['', [Validators.required, Validators.minLength(3), Validators.pattern('[a-zA-Z ]*')]],
       lastname: ['', [Validators.required, Validators.minLength(3), Validators.pattern('[a-zA-Z ]*')]],
-      studentNumber:  ['', [Validators.required, Validators.minLength(9),Validators.maxLength(9), Validators.pattern("^[0-9]{9}$")]],
-    
-    })
+    });
 
-    this.signupForm.controls["firstname"].setValue(this.acs.user.firstname)
-    this.signupForm.controls["lastname"].setValue(this.acs.user.lastname)
-    this.signupForm.controls["studentNumber"].setValue((<Student>this.acs.user).studentNumber)
+    this.nxtKinForm = new FormBuilder().group({
+      firstname: [''],
+      lastname: [''],
+      email: [''],
+    });
+
+    this.physAddressForm = new FormBuilder().group({
+      houseNo: ['', [Validators.required]],
+      streetName: ['', [Validators.required, Validators.minLength(3), Validators.pattern('[a-zA-Z ]*')]],
+      town: ['', [Validators.required, Validators.minLength(3), Validators.pattern('[a-zA-Z ]*')]],
+      postalCode: ['', [Validators.required]],
+    });
+
+
+    this.signupForm.controls.firstname.setValue('Comming soon');
+    this.signupForm.controls.lastname.setValue('Comming soon');
   }
 
-  get firstname() { return this.signupForm.get('firstname')}
+  get firstname() { return this.signupForm.get('firstname'); }
 
-  get lastname() { return this.signupForm.get('lastname')}
+  get lastname() { return this.signupForm.get('lastname'); }
 
-  get studentNumber() { return this.signupForm.get('studentNumber')}
+  get houseNo() { return this.physAddressForm.get('houseNo'); }
 
+  get streetName() { return this.physAddressForm.get('streetName'); }
 
-  navigate(){
+  get town() { return this.physAddressForm.get('town'); }
+
+  get postalCode() { return this.physAddressForm.get('postalCode'); }
+
+  navigate() {
     // this.router.navigateByUrl("menu/signin")
   }
 
-  signup(){
+  signup() {
     // this.auth.signup(this.signupForm.value["firstname"], this.signupForm.value["lastname"],
     // this.signupForm.value["phone"], this.signupForm.value["email"], this.signupForm.value["password"])
   }
 
-  fnameEnable(){
+  fnameEnable() {
     this.fenabled = true;
   }
 
-  lnameEnable(){
+  lnameEnable() {
     this.lenabled = true;
   }
 
-  phoneEnable(){
+  phoneEnable() {
     this.stenabled = true;
-    
+
   }
 
-  async edit(event){
+  async edit(event) {
     const popover = await this.popoverController.create({
       component: EditpicPage,
       cssClass: 'my-custom-class',
       translucent: true,
-      event: event
+      event
     });
     await popover.present();
 
   }
 
-  editInfor(){
+  editInfor() {
     this.isEditable = !this.isEditable;
 
 
-    this.editClose = this.isEditable ? "Cancel" : "Edit"
+    this.editClose = this.isEditable ? 'Cancel' : 'Edit';
 
-    this.signupForm.controls["firstname"].setValue(this.acs.user.firstname)
-    this.signupForm.controls["lastname"].setValue(this.acs.user.lastname)
-    this.signupForm.controls["studentNumber"].setValue((<Student>this.acs.user).studentNumber)
-    
+    this.signupForm.controls.firstname.setValue('Comming soon');
+    this.signupForm.controls.lastname.setValue('Comming soon');
+
   }
 
-  update(){
-    this.editClose = "Edit";
-    console.log(this.signupForm)
-    this.dbs.updateInfor(this.signupForm.value["firstname"],
-    this.signupForm.value["lastname"], this.signupForm.value["studentNumber"]);
+  update() {
+    this.editClose = 'Edit';
+    console.log(this.signupForm);
+    // this.dbs.updateInfor(this.signupForm.value.firstname,
+    //   this.signupForm.value.lastname);
 
   }
 
