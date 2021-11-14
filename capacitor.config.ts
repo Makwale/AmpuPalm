@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.drivers.busride',
-  appName: 'BusRide Driver',
+  appId: 'com.ambipalm.test',
+  appName: 'Ambi Palm',
   webDir: 'www',
   bundledWebRuntime: false
 };

@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Slot } from 'src/app/modells/slot.model';
 import { DatabaseService } from 'src/app/services/database.service';
 import { TrackingService } from 'src/app/services/tracking.service';
 import { LoadingController } from '@ionic/angular';

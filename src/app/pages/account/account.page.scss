@@ -12,3 +12,19 @@
     margin-top: 10px; 
     margin-bottom: 10px;
 }
+
+.save{
+    font-weight: bold; 
+    background-color: #2dd36f36;
+    color: #1cdd69; 
+    border-radius: 13px; 
+    padding: 3px 10px;
+}
+
+.cancel{
+    font-weight: bold; 
+    background-color: rgba(255, 0, 0, 0.295);
+    color: red; 
+    border-radius: 13px; 
+    padding: 3px 10px;
+}

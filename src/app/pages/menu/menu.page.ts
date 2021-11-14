@@ -7,7 +7,6 @@ import { AccountService } from 'src/app/services/account.service';
 import { DatabaseService } from 'src/app/services/database.service';
 import { PopoverController } from '@ionic/angular';
 import { EditpicPage } from '../editpic/editpic.page';
-import { SearchbusPage } from '../searchbus/searchbus.page';
 import { OneSignal, OSNotification } from '@ionic-native/onesignal/ngx';
 import { AuthService } from 'src/app/services/auth.service';
 import { ProfilePage } from '../profile/profile.page';
@@ -55,7 +54,6 @@ export class MenuPage implements OnInit {
     this.afa.signOut().then(res => {
       this.acs.loginStatus = false;
       this.router.navigateByUrl('menu');
-      this.dbs.bookings = [];
       this.menu.toggle();
     });
   }
@@ -64,7 +62,6 @@ export class MenuPage implements OnInit {
     this.afa.signOut().then(res => {
       this.acs.loginStatus = false;
       this.router.navigateByUrl('menu');
-      this.dbs.bookings = [];
     });
   }
 
@@ -89,16 +86,6 @@ export class MenuPage implements OnInit {
     await popover.present();
 
   }
-
-  async searchbus() {
-
-    const modal = await this.modalController.create({
-      component: SearchbusPage,
-
-    });
-    return await modal.present();
-  }
-
 
   //-25.731898523213264, 28.162400726583623
 

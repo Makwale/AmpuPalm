@@ -1,22 +1,13 @@
-export class User{
+import { Address } from './address.model';
+
+export class User {
     id?;
     firstname?;
     lastname?;
     email?;
-    imgURL?
-    playerid?
-    constructor(id, firstname, lastname, email?, imgURL?, playerid?){
-        
-        this.id = id;
+    imgURL?;
+    address?: Address;
+    nxtKinId?;
+    nextOfKin?: User;
 
-         this.firstname = firstname;
-
-         this.lastname = lastname;
-
-         this.email = email;
-
-         this.imgURL = imgURL;
-
-         this.playerid = playerid
-    }
 }

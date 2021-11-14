@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from '@angular/router';
@@ -7,8 +7,8 @@ import { EditpicPage } from '../editpic/editpic.page';
 import { PopoverController } from '@ionic/angular';
 import { DatabaseService } from 'src/app/services/database.service';
 import { AccountService } from 'src/app/services/account.service';
-import { Student } from 'src/app/modells/student.model';
-
+import { User } from 'src/app/modells/user.model';
+import { AlertController } from '@ionic/angular';
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     const isSubmitted = form && form.submitted;
@@ -22,32 +22,42 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class AccountPage implements OnInit {
 
-  signupForm: FormGroup;
+  @ViewChild('main') ionContent: ElementRef;
+  accountForm: FormGroup;
   physAddressForm: FormGroup;
   nxtKinForm: FormGroup;
+  addNxtKinForm: FormGroup;
   matcher = new MyErrorStateMatcher();
   fenabled = false;
   lenabled = false;
   stenabled = false;
-  isEditable = false;
+  isPerInfoEdit = false;
+  isAddressEdit = false;
   editClose = 'Edit';
   defaultPic = '../../../assets/profile.png';
-
-
+  addNextOfKin = false;
+  nextOfKings: User[];
+  foundNxtOfKin: User;
   constructor(public popoverController: PopoverController,
     private dbs: DatabaseService,
     private acs: AccountService,
-    private auth: AuthService) { }
+    private auth: AuthService,
+    public alertController: AlertController) { }
 
   ngOnInit() {
-    this.signupForm = new FormBuilder().group({
+    this.accountForm = new FormBuilder().group({
       firstname: ['', [Validators.required, Validators.minLength(3), Validators.pattern('[a-zA-Z ]*')]],
       lastname: ['', [Validators.required, Validators.minLength(3), Validators.pattern('[a-zA-Z ]*')]],
+      email: [''],
     });
 
     this.nxtKinForm = new FormBuilder().group({
       firstname: [''],
       lastname: [''],
+      email: [''],
+    });
+
+    this.addNxtKinForm = new FormBuilder().group({
       email: [''],
     });
 
@@ -59,13 +69,23 @@ export class AccountPage implements OnInit {
     });
 
 
-    this.signupForm.controls.firstname.setValue('Comming soon');
-    this.signupForm.controls.lastname.setValue('Comming soon');
+    this.accountForm.controls.firstname.setValue(this.acs.user.firstname);
+    this.accountForm.controls.lastname.setValue(this.acs.user.lastname);
+    this.accountForm.controls.email.setValue(this.acs.user.email);
+    this.physAddressForm.controls.houseNo.setValue(this.acs.user.address.houseNo);
+    this.physAddressForm.controls.streetName.setValue(this.acs.user.address.streetName);
+    this.physAddressForm.controls.town.setValue(this.acs.user.address.town);
+    this.physAddressForm.controls.postalCode.setValue(this.acs.user.address.postalCode);
+    if (this.acs.user.nextOfKin) {
+      this.nxtKinForm.controls.firstname.setValue(this.acs.user.firstname);
+      this.nxtKinForm.controls.lastname.setValue(this.acs.user.lastname);
+      this.nxtKinForm.controls.email.setValue(this.acs.user.email);
+    }
   }
 
-  get firstname() { return this.signupForm.get('firstname'); }
+  get firstname() { return this.accountForm.get('firstname'); }
 
-  get lastname() { return this.signupForm.get('lastname'); }
+  get lastname() { return this.accountForm.get('lastname'); }
 
   get houseNo() { return this.physAddressForm.get('houseNo'); }
 
@@ -78,10 +98,9 @@ export class AccountPage implements OnInit {
   navigate() {
     // this.router.navigateByUrl("menu/signin")
   }
-
   signup() {
-    // this.auth.signup(this.signupForm.value["firstname"], this.signupForm.value["lastname"],
-    // this.signupForm.value["phone"], this.signupForm.value["email"], this.signupForm.value["password"])
+    // this.auth.signup(this.accountForm.value["firstname"], this.accountForm.value["lastname"],
+    // this.accountForm.value["phone"], this.accountForm.value["email"], this.accountForm.value["password"])
   }
 
   fnameEnable() {
@@ -109,24 +128,117 @@ export class AccountPage implements OnInit {
   }
 
   editInfor() {
-    this.isEditable = !this.isEditable;
-
-
-    this.editClose = this.isEditable ? 'Cancel' : 'Edit';
-
-    this.signupForm.controls.firstname.setValue('Comming soon');
-    this.signupForm.controls.lastname.setValue('Comming soon');
+    this.isPerInfoEdit = !this.isPerInfoEdit;
+    this.editClose = this.isPerInfoEdit ? 'Cancel' : 'Edit';
+    this.accountForm.controls.firstname.setValue('Comming soon');
+    this.accountForm.controls.lastname.setValue('Comming soon');
 
   }
 
   update() {
     this.editClose = 'Edit';
-    console.log(this.signupForm);
-    // this.dbs.updateInfor(this.signupForm.value.firstname,
-    //   this.signupForm.value.lastname);
+    console.log(this.accountForm);
+    // this.dbs.updateInfor(this.accountForm.value.firstname,
+    //   this.accountForm.value.lastname);
 
   }
 
+  enableEdit(section: string) {
+    switch (section) {
+      case 'pers_info':
+        this.isPerInfoEdit = !this.isPerInfoEdit;
+        break;
+      case 'address':
+        this.isAddressEdit = !this.isAddressEdit;
+        break;
+    }
+  }
+
+  save(section: string) {
+    switch (section) {
+      case 'pers_info':
+        this.dbs.updatePersInfo(this.accountForm).then(_ => {
+          this.isPerInfoEdit = !this.isPerInfoEdit;
+          alert('Personal info updated');
+        });
+        break;
+      case 'address':
+        this.dbs.updateAddress(this.physAddressForm).then(_ => {
+          alert('Physical address updated');
+          this.isAddressEdit = !this.isAddressEdit;
+        });
+        break;
+    }
+
+  }
+
+  isAddNextOfKin(main: any) {
+    this.addNextOfKin = !this.addNextOfKin;
+    main.scrollToBottom();
+    this.dbs.getNextOfKins().subscribe(data => {
+      this.nextOfKings = data.map(res => {
+        const tempObj: User = res.payload.doc.data();
+        tempObj.id = res.payload.doc.id;
+        return tempObj;
+      });
+
+      console.log(this.nextOfKings);
+    });
+  }
+
+  searchNextOfKin(main: any) {
+    this.foundNxtOfKin = this.nextOfKings.find(
+      user => user.email === String(this.addNxtKinForm.controls.email.value).trim());
+    if (this.foundNxtOfKin) {
+      main.scrollToBottom();
+    }
+  }
+
+  select() {
+    this.dbs.addNextOfKin(this.foundNxtOfKin).then(_ => {
+      this.acs.user.nextOfKin = this.foundNxtOfKin;
+      this.foundNxtOfKin = undefined;
+      this.addNextOfKin = false;
+      alert('Next of kin added');
+    });
+  }
+
+  cancel(section: string) {
+    switch (section) {
+      case 'pers_info':
+        this.isPerInfoEdit = !this.isPerInfoEdit;
+        break;
+      case 'address':
+        this.isAddressEdit = !this.isAddressEdit;
+        break;
+    }
+  }
+
+  async deleteNxtKin() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Confirm!',
+      message: 'Are you sure?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'Yes',
+          handler: () => {
+            this.dbs.deleteNxtKin().then(_ => {
+            });
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
 
 
 }

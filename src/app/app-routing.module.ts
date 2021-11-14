@@ -11,10 +11,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/menu/menu.module').then(m => m.MenuPageModule)
   },
   {
-    path: 'searchbus',
-    loadChildren: () => import('./pages/searchbus/searchbus.module').then(m => m.SearchbusPageModule)
-  },
-  {
     path: 'editpic',
     loadChildren: () => import('./pages/editpic/editpic.module').then(m => m.EditpicPageModule)
   },

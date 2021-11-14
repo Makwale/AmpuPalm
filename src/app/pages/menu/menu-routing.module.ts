@@ -17,30 +17,24 @@ const routes: Routes = [
       },
       {
         path: 'home',
-        loadChildren: () => import('../../pages/home/home.module').then( m => m.HomePageModule)
-        
+        loadChildren: () => import('../../pages/home/home.module').then(m => m.HomePageModule)
       },
       {
         path: 'signin',
-        loadChildren: () => import('../../pages/signin/signin.module').then( m => m.SigninPageModule)
+        loadChildren: () => import('../../pages/signin/signin.module').then(m => m.SigninPageModule)
       },
       {
         path: 'signup',
-        loadChildren: () => import('../../pages/signup/signup.module').then( m => m.SignupPageModule)
-      },
-      {
-        path: 'bookings',
-        loadChildren: () => import('../../pages/bookings/bookings.module').then( m => m.BookingsPageModule)
+        loadChildren: () => import('../../pages/signup/signup.module').then(m => m.SignupPageModule)
       },
       {
         path: 'map',
-        loadChildren: () => import('../../pages/map/map.module').then( m => m.MapPageModule)
+        loadChildren: () => import('../../pages/map/map.module').then(m => m.MapPageModule)
       },
       {
         path: 'account',
-        loadChildren: () => import('../../pages/account/account.module').then( m => m.AccountPageModule)
+        loadChildren: () => import('../../pages/account/account.module').then(m => m.AccountPageModule)
       },
-      
     ],
   }
 ];
@@ -49,4 +43,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class MenuPageRoutingModule {}
+export class MenuPageRoutingModule { }

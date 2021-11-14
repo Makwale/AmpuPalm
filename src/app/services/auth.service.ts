@@ -10,15 +10,10 @@ import {
   AngularFirestoreDocument
 } from '@angular/fire/firestore';
 import { AccountService } from './account.service';
-import { Student } from '../modells/student.model';
 import { Router } from '@angular/router';
 import { DatabaseService } from './database.service';
-import { Driver } from '../modells/driver.model';
-import { Slot } from '../modells/slot.model';
-import { Booking } from '../modells/booking.model';
 import { AlertController, ToastController } from '@ionic/angular';
 import { User } from '../modells/user.model';
-import { Bus } from '../modells/bus.model';
 import { FormGroup } from '@angular/forms';
 
 
@@ -44,6 +39,7 @@ export class AuthService {
 
     this.afa.signInWithEmailAndPassword(email, password)
       .then(res => {
+        this.acs.loginStatus = true;
         this.router.navigateByUrl('/menu/home');
       }).catch(error => {
 
@@ -120,6 +116,7 @@ export class AuthService {
 
   }
 
-  getBookingsSlot() {
+  getNextOfKin(id: string) {
+    return this.afs.collection('user').doc(id).snapshotChanges();
   }
 }

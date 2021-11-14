@@ -1,14 +1,19 @@
-<ion-content>
+<ion-content [scrollEvents]="true" #main>
   <ion-item-divider>
-    <ion-icon slot="start" size="small" color="ourtheme" name="create-outline"></ion-icon>
+    <ion-icon *ngIf="!isPerInfoEdit" slot="start" size="small" color="ourtheme" (click)="enableEdit('pers_info')"
+      name="create-outline"></ion-icon>
+    <ion-label *ngIf="isPerInfoEdit" class="save" slot="start" (click)="save('pers_info')">Save
+    </ion-label>
+    <ion-label *ngIf="isPerInfoEdit" class="cancel" slot="start" (click)="cancel('pers_info')">Cancel
+    </ion-label>
     <ion-label slot="end" color="sec" class="ion-margin">
       Personal details
     </ion-label>
   </ion-item-divider>
-  <form [formGroup]="signupForm">
+  <form [formGroup]="accountForm">
     <ion-item class="input ion-margin">
       <ion-label color="sec" position="stacked">First Name</ion-label>
-      <ion-input style="font-weight: bold; font-size: 91%;" [disabled]="!isEditable" (ionInput)="fnameEnable()"
+      <ion-input style="font-weight: bold; font-size: 91%;" [disabled]="!isPerInfoEdit" (ionInput)="fnameEnable()"
         formControlName="firstname" required enterkeyhint="next"></ion-input>
 
     </ion-item>
@@ -33,7 +38,7 @@
 
     <ion-item class="input ion-margin">
       <ion-label color="sec" position="stacked">Last Name</ion-label>
-      <ion-input style="font-weight: bold; font-size: 91%;" [disabled]="!isEditable" (ionInput)="lnameEnable()"
+      <ion-input style="font-weight: bold; font-size: 91%;" [disabled]="!isPerInfoEdit" (ionInput)="lnameEnable()"
         formControlName="lastname" enterkeyhint="next"></ion-input>
     </ion-item>
 
@@ -54,6 +59,12 @@
       </mat-error>
     </div>
 
+    <ion-item class="input ion-margin">
+      <ion-label color="sec" position="stacked">Email</ion-label>
+      <ion-input style="font-weight: bold; font-size: 91%;" disabled (ionInput)="lnameEnable()" formControlName="email"
+        enterkeyhint="next"></ion-input>
+    </ion-item>
+
   </form>
   <!-- <ion-button [disabled]="!isEditable || signupForm.status === 'INVALID'" size="medium" expand="block" color="ourtheme"
     (click)="update()">Update</ion-button> -->
@@ -63,7 +74,12 @@
     <ion-spinner *ngIf="auth.clicked" name="dots" color="light"></ion-spinner>
   </button>
   <ion-item-divider>
-    <ion-icon slot="start" size="small" color="ourtheme" name="create-outline"></ion-icon>
+    <ion-icon *ngIf="!isAddressEdit" slot="start" size="small" color="ourtheme" name="create-outline"
+      (click)="enableEdit('address')"></ion-icon>
+    <ion-label *ngIf="isAddressEdit" class="save" slot="start" color="success" (click)="save('address')">Save
+    </ion-label>
+    <ion-label *ngIf="isAddressEdit" class="cancel" slot="start" (click)="cancel('address')">Cancel
+    </ion-label>
     <ion-label slot="end" color="sec" class="ion-margin">
       Physical Address
     </ion-label>
@@ -72,7 +88,7 @@
     <ion-item class="input ion-margin">
       <ion-label color="sec" position="stacked">House number</ion-label>
       <ion-input style="font-weight: bold; font-size: 91%;" tabindex="0" (ionInput)="houseNoEnable()"
-        formControlName="houseNo" type="number" required enterkeyhint="next"></ion-input>
+        formControlName="houseNo" type="number" [disabled]="!isAddressEdit" required enterkeyhint="next"></ion-input>
     </ion-item>
 
     <div *ngIf="houseNoEnabled">
@@ -87,7 +103,7 @@
     <ion-item class="input ion-margin">
       <ion-label color="sec" position="stacked">Street name</ion-label>
       <ion-input style="font-weight: bold; font-size: 91%;" tabindex="1" (ionInput)="streetNameEnable()"
-        formControlName="streetName" enterkeyhint="next"></ion-input>
+        formControlName="streetName" enterkeyhint="next" [disabled]="!isAddressEdit"></ion-input>
     </ion-item>
 
     <div *ngIf="streetNameEnabled">
@@ -109,7 +125,7 @@
     <ion-item class="input ion-margin">
       <ion-label color="sec" position="stacked">Town</ion-label>
       <ion-input style="font-weight: bold; font-size: 91%;" tabindex="4" type="password" (ionInput)="townEnable()"
-        formControlName="town" type="text" enterkeyhint="next"></ion-input>
+        formControlName="town" type="text" enterkeyhint="next" [disabled]="!isAddressEdit"></ion-input>
     </ion-item>
 
     <div *ngIf="townEnabled">
@@ -132,7 +148,7 @@
     <ion-item class="input ion-margin">
       <ion-label color="sec" position="stacked">Postal code</ion-label>
       <ion-input style="font-weight: bold; font-size: 91%;" tabindex="4" type="password" (ionInput)="codeEnable()"
-        formControlName="postalCode" type="number" enterkeyhint="next"></ion-input>
+        formControlName="postalCode" type="number" enterkeyhint="next" [disabled]="!isAddressEdit"></ion-input>
     </ion-item>
 
     <div *ngIf="codeEnabled">
@@ -144,25 +160,44 @@
   </form>
 
   <ion-item-divider>
-    <ion-icon slot="start" size="small" color="danger" name="trash-outline"></ion-icon>
+    <ion-icon *ngIf="acs.user.nextOfKin" slot="start" size="small" color="danger" name="trash-outline"
+      (click)="deleteNxtKin()"></ion-icon>
+    <ion-icon *ngIf="!acs.user.nextOfKin" color="ourtheme" size="small" name="person-add-outline"
+      (click)="isAddNextOfKin(main)"></ion-icon>
     <ion-label slot="end" color="sec" class="ion-margin">
       Next of kin
     </ion-label>
   </ion-item-divider>
-  <form [formGroup]="nxtKinForm">
+  <form [formGroup]="nxtKinForm" *ngIf="acs.user.nextOfKin">
     <ion-item class="input ion-margin">
       <ion-label color="sec" position="stacked">First Name</ion-label>
-      <ion-input readonly style="font-weight: bold; font-size: 91%;" formControlName="firstname"></ion-input>
+      <ion-input disabled style="font-weight: bold; font-size: 91%;" formControlName="firstname"></ion-input>
     </ion-item>
 
     <ion-item class="input ion-margin">
       <ion-label color="sec" position="stacked">Last Name</ion-label>
-      <ion-input readonly style="font-weight: bold; font-size: 91%;" formControlName="lastname"></ion-input>
+      <ion-input disabled style="font-weight: bold; font-size: 91%;" formControlName="lastname"></ion-input>
     </ion-item>
 
     <ion-item class="input ion-margin">
       <ion-label color="sec" position="stacked">Email</ion-label>
-      <ion-input readonly style="font-weight: bold; font-size: 91%;" formControlName="email"></ion-input>
+      <ion-input disabled style="font-weight: bold; font-size: 91%;" formControlName="email"></ion-input>
     </ion-item>
   </form>
+
+  <!-- Add next of kin -->
+  <form [formGroup]="addNxtKinForm" *ngIf="addNextOfKin">
+    <ion-item class="input ion-margin">
+      <ion-label color="sec" position="stacked">Email</ion-label>
+      <ion-input (ionChange)="searchNextOfKin(main)" style="font-weight: bold; font-size: 91%;" formControlName="email">
+      </ion-input>
+    </ion-item>
+    <ion-item class="ion-margin" (click)="select()" *ngIf="foundNxtOfKin">
+      <ion-badge
+        style="background-color: #f575794b; color: #f5757a; font-size: medium; padding: 6px 13px; border-radius: 13px;">
+        {{foundNxtOfKin.firstname}} {{foundNxtOfKin.lastname}}
+      </ion-badge>
+    </ion-item>
+  </form>
+
 </ion-content>
