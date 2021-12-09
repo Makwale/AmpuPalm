@@ -111,7 +111,7 @@ export class DatabaseService {
 
         this.afs.collection('driver').doc(ambulance.driverId).snapshotChanges().subscribe(async driverres => {
           await this.sendNotification([(driverres.payload.data() as any).playerid], 'Driver Test mode').then(_ => {
-            resolve('success');
+            resolve('driver');
           });
         });
       });
