@@ -60,6 +60,11 @@
     </div>
 
     <ion-item class="input ion-margin">
+      <ion-label color="sec" position="stacked">Phone</ion-label>
+      <ion-input [disabled]="!isPerInfoEdit" style="font-weight: bold; font-size: 91%;" (ionInput)="lnameEnable()"
+        formControlName="phone" enterkeyhint="next"></ion-input>
+    </ion-item>
+    <ion-item class="input ion-margin">
       <ion-label color="sec" position="stacked">Email</ion-label>
       <ion-input style="font-weight: bold; font-size: 91%;" disabled (ionInput)="lnameEnable()" formControlName="email"
         enterkeyhint="next"></ion-input>
@@ -73,131 +78,4 @@
     <span *ngIf="!auth.clicked">Update</span>
     <ion-spinner *ngIf="auth.clicked" name="dots" color="light"></ion-spinner>
   </button>
-  <ion-item-divider>
-    <ion-icon *ngIf="!isAddressEdit" slot="start" size="small" color="ourtheme" name="create-outline"
-      (click)="enableEdit('address')"></ion-icon>
-    <ion-label *ngIf="isAddressEdit" class="save" slot="start" color="success" (click)="save('address')">Save
-    </ion-label>
-    <ion-label *ngIf="isAddressEdit" class="cancel" slot="start" (click)="cancel('address')">Cancel
-    </ion-label>
-    <ion-label slot="end" color="sec" class="ion-margin">
-      Physical Address
-    </ion-label>
-  </ion-item-divider>
-  <form [formGroup]="physAddressForm">
-    <ion-item class="input ion-margin">
-      <ion-label color="sec" position="stacked">House number</ion-label>
-      <ion-input style="font-weight: bold; font-size: 91%;" tabindex="0" (ionInput)="houseNoEnable()"
-        formControlName="houseNo" type="number" [disabled]="!isAddressEdit" required enterkeyhint="next"></ion-input>
-    </ion-item>
-
-    <div *ngIf="houseNoEnabled">
-
-      <mat-error *ngIf="houseNo.hasError('required')">
-        <small style="color: red; margin-left: 5px;">House number is <strong><span
-              style="letter-spacing: .5px;">required</span></strong></small>
-      </mat-error>
-    </div>
-
-
-    <ion-item class="input ion-margin">
-      <ion-label color="sec" position="stacked">Street name</ion-label>
-      <ion-input style="font-weight: bold; font-size: 91%;" tabindex="1" (ionInput)="streetNameEnable()"
-        formControlName="streetName" enterkeyhint="next" [disabled]="!isAddressEdit"></ion-input>
-    </ion-item>
-
-    <div *ngIf="streetNameEnabled">
-      <mat-error *ngIf="streetName.hasError('required') ">
-        <small style="color: red; margin-left: 5px;">Street name is <strong><span
-              style="letter-spacing: .5px;">required</span></strong></small>
-      </mat-error>
-
-      <mat-error *ngIf="streetName.hasError('pattern')">
-        <small style="color: red; margin-left: 5px;" errors>Street name must not have a special charector or a
-          number</small>
-      </mat-error>
-
-      <mat-error *ngIf="streetName.hasError('minlength')">
-        <small style="color: red; margin-left: 5px;" errors>Street name must have atleast 3 letters</small>
-      </mat-error>
-    </div>
-
-    <ion-item class="input ion-margin">
-      <ion-label color="sec" position="stacked">Town</ion-label>
-      <ion-input style="font-weight: bold; font-size: 91%;" tabindex="4" type="password" (ionInput)="townEnable()"
-        formControlName="town" type="text" enterkeyhint="next" [disabled]="!isAddressEdit"></ion-input>
-    </ion-item>
-
-    <div *ngIf="townEnabled">
-
-      <mat-error *ngIf="town.hasError('required') ">
-        <small style="color: red; margin-left: 5px;">Town name is <strong><span
-              style="letter-spacing: .5px;">required</span></strong></small>
-      </mat-error>
-
-      <mat-error *ngIf="town.hasError('pattern')">
-        <small style="color: red; margin-left: 5px;" errors>Town name must not have a special charector or a
-          number</small>
-      </mat-error>
-
-      <mat-error *ngIf="town.hasError('minlength')">
-        <small style="color: red; margin-left: 5px;" errors>Town name must have atleast 3 letters</small>
-      </mat-error>
-    </div>
-
-    <ion-item class="input ion-margin">
-      <ion-label color="sec" position="stacked">Postal code</ion-label>
-      <ion-input style="font-weight: bold; font-size: 91%;" tabindex="4" type="password" (ionInput)="codeEnable()"
-        formControlName="postalCode" type="number" enterkeyhint="next" [disabled]="!isAddressEdit"></ion-input>
-    </ion-item>
-
-    <div *ngIf="codeEnabled">
-      <mat-error *ngIf="postalCode.hasError('required') ">
-        <small style="color: red; margin-left: 5px;">Postal code is <strong><span
-              style="letter-spacing: .5px;">required</span></strong></small>
-      </mat-error>
-    </div>
-  </form>
-
-  <ion-item-divider>
-    <ion-icon *ngIf="acs.user.nextOfKin" slot="start" size="small" color="danger" name="trash-outline"
-      (click)="deleteNxtKin()"></ion-icon>
-    <ion-icon *ngIf="!acs.user.nextOfKin" color="ourtheme" size="small" name="person-add-outline"
-      (click)="isAddNextOfKin(main)"></ion-icon>
-    <ion-label slot="end" color="sec" class="ion-margin">
-      Next of kin
-    </ion-label>
-  </ion-item-divider>
-  <form [formGroup]="nxtKinForm" *ngIf="acs.user.nextOfKin">
-    <ion-item class="input ion-margin">
-      <ion-label color="sec" position="stacked">First Name</ion-label>
-      <ion-input disabled style="font-weight: bold; font-size: 91%;" formControlName="firstname"></ion-input>
-    </ion-item>
-
-    <ion-item class="input ion-margin">
-      <ion-label color="sec" position="stacked">Last Name</ion-label>
-      <ion-input disabled style="font-weight: bold; font-size: 91%;" formControlName="lastname"></ion-input>
-    </ion-item>
-
-    <ion-item class="input ion-margin">
-      <ion-label color="sec" position="stacked">Email</ion-label>
-      <ion-input disabled style="font-weight: bold; font-size: 91%;" formControlName="email"></ion-input>
-    </ion-item>
-  </form>
-
-  <!-- Add next of kin -->
-  <form [formGroup]="addNxtKinForm" *ngIf="addNextOfKin">
-    <ion-item class="input ion-margin">
-      <ion-label color="sec" position="stacked">Email</ion-label>
-      <ion-input (ionChange)="searchNextOfKin(main)" style="font-weight: bold; font-size: 91%;" formControlName="email">
-      </ion-input>
-    </ion-item>
-    <ion-item class="ion-margin" (click)="select()" *ngIf="foundNxtOfKin">
-      <ion-badge
-        style="background-color: #f575794b; color: #f5757a; font-size: medium; padding: 6px 13px; border-radius: 13px;">
-        {{foundNxtOfKin.firstname}} {{foundNxtOfKin.lastname}}
-      </ion-badge>
-    </ion-item>
-  </form>
-
 </ion-content>

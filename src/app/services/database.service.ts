@@ -32,9 +32,10 @@ export class DatabaseService {
     private oneSignal: OneSignal) { }
 
   updatePersInfo(fg: FormGroup) {
-    return this.afs.collection('user').doc(this.acs.user.id).update({
+    return this.afs.collection('driver').doc(this.acs.user.id).update({
       firstname: fg.controls.firstname.value,
-      lastname: fg.controls.lastname.value
+      lastname: fg.controls.lastname.value,
+      phone: fg.controls.phone.value,
     });
   }
   updateAddress(fg: FormGroup) {

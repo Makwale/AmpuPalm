@@ -41,43 +41,42 @@ export class AppComponent implements OnInit {
       spinner: 'dots',
       cssClass: 'my-custom-class',
       message: 'Please wait...',
-      duration: 2000,
+      duration: 5000
     });
     await loading.present();
-
-    this.auth.user.subscribe(async user => {
-      if (user) {
-        await this.oneSignal.getIds().then(async oneSignalRes => {
-          await this.afs.collection('user').doc(user.uid).update({
-            playerid: oneSignalRes.userId
-          });
-        });
-        this.afs.collection('user').doc(user.uid).snapshotChanges().subscribe(results => {
-          const userdata: User = results.payload.data() as User;
-          userdata.id = user.uid;
-          this.afs.collection('address', ref => ref.where('userid', '==', user.uid)).snapshotChanges().subscribe(async addressResults => {
-            userdata.address = addressResults[0]?.payload.doc?.data() as Address;
-            userdata.address.id = addressResults[0]?.payload.doc?.id;
-            if (userdata.nxtKinId) {
-              this.afs.collection('user').doc(userdata?.nxtKinId).snapshotChanges().subscribe(async nxtKinData => {
-                userdata.nextOfKin = nxtKinData?.payload?.data();
-                userdata.nextOfKin.id = userdata?.nxtKinId;
-                this.acs.user = userdata;
-                this.acs.loginStatus = true;
-                await loading.onDidDismiss();
-                this.router.navigateByUrl('menu/home');
-              });
-            } else {
-              this.acs.user = userdata;
-              this.acs.loginStatus = true;
-              await loading.onDidDismiss();
-              this.router.navigateByUrl('menu/home');
-            }
-          });
-        });
-      } else {
-        this.router.navigateByUrl('menu/signup');
-      }
-    });
+    // this.auth.user.subscribe(async user => {
+    //   if (user) {
+    //     await this.oneSignal.getIds().then(async oneSignalRes => {
+    //       await this.afs.collection('user').doc(user.uid).update({
+    //         playerid: oneSignalRes.userId
+    //       });
+    //     });
+    //     this.afs.collection('user').doc(user.uid).snapshotChanges().subscribe(results => {
+    //       const userdata: User = results.payload.data() as User;
+    //       userdata.id = user.uid;
+    //       this.afs.collection('address', 
+    // ref => ref.where('userid', '==', user.uid)).snapshotChanges().subscribe(async addressResults => {
+    //         userdata.address = addressResults[0]?.payload.doc?.data() as Address;
+    //         userdata.address.id = addressResults[0]?.payload.doc?.id;
+    //         if (userdata.nxtKinId) {
+    //           this.afs.collection('user').doc(userdata?.nxtKinId).snapshotChanges().subscribe(async nxtKinData => {
+    //             userdata.nextOfKin = nxtKinData?.payload?.data();
+    //             userdata.nextOfKin.id = userdata?.nxtKinId;
+    //             this.acs.user = userdata;
+    //             this.acs.loginStatus = true;
+    //             this.router.navigateByUrl('menu/home');
+    //           });
+    //         } else {
+    //           this.acs.user = userdata;
+    //           this.acs.loginStatus = true;
+    //           await loading.onDidDismiss();
+    //           this.router.navigateByUrl('menu/home');
+    //         }
+    //       });
+    //     });
+    //   } else {
+    //     this.router.navigateByUrl('menu/signup');
+    //   }
+    // });
   }
 }

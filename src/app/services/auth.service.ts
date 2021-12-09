@@ -46,30 +46,17 @@ export class AuthService {
     this.oneSignal.endInit();
     this.afa.signInWithEmailAndPassword(email, password)
       .then(async res => {
-        await this.oneSignal.getIds().then(async oneSignalRes => {
-          await this.afs.collection('user').doc(res.user.uid).update({
-            playerid: oneSignalRes.userId
-          });
-        });
+        // await this.oneSignal.getIds().then(async oneSignalRes => {
+        //   await this.afs.collection('user').doc(res.user.uid).update({
+        //     playerid: oneSignalRes.userId
+        //   });
+        // });
         this.acs.loginStatus = true;
-        this.afs.collection('user').doc(res.user.uid).snapshotChanges().subscribe(async results => {
+        this.afs.collection('driver').doc(res.user.uid).snapshotChanges().subscribe(async results => {
           const userdata: User = results.payload.data() as User;
           userdata.id = res.user.uid;
           console.log(userdata);
-          await this.getAddress(res.user.uid).then(addressResults => {
-            userdata.address = addressResults[0].payload.doc.data() as Address;
-            userdata.address.id = addressResults[0].payload.doc.id;
-          });
-
-          if (userdata.nxtKinId) {
-            await this.getNextOfKin(userdata.nxtKinId).then(nxtKinData => {
-              userdata.nextOfKin = nxtKinData.payload.data();
-              userdata.nextOfKin.id = userdata.nxtKinId;
-            });
-          }
-
           this.acs.user = userdata;
-          this.acs.loginStatus = true;
           this.acs.loginStatus = true;
           this.clicked = false;
           this.router.navigateByUrl('menu/home');
@@ -77,9 +64,7 @@ export class AuthService {
         });
         this.router.navigateByUrl('/menu/home');
       }).catch(error => {
-
         this.clicked = false;
-
         this.ourToast(error.message, 'danger');
 
       });

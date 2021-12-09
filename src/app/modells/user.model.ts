@@ -10,4 +10,5 @@ export class User {
     nxtKinId?;
     nextOfKin?: User;
     playerId?: string;
+    phone?: string;
 }
