@@ -68,7 +68,7 @@ export class HomePage implements OnInit, DoCheck {
           id: data.payload.doc.id,
           data: data.payload.doc.data()
         }
-      })
+      });
       console.log(this.requests);
     });
   }
