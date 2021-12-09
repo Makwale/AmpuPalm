@@ -11,6 +11,7 @@ import { ToastController } from '@ionic/angular';
 import { LoadingController } from '@ionic/angular';
 import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
 
+declare let mapboxgl: any;
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -38,8 +39,8 @@ export class HomePage implements OnInit, DoCheck {
   ngDoCheck() {
   }
 
-  requestAmbulance() {
-    this.dbs.requestAmbulance(['matches']);
+  async requestAmbulance() {
+    await this.dbs.requestAmbulance(['matches']);
     // this.speechRecognition.isRecognitionAvailable()
     //   .then((available: boolean) => {
     //     if (available) {
@@ -52,4 +53,5 @@ export class HomePage implements OnInit, DoCheck {
     //     }
     //   });
   }
+
 }

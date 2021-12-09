@@ -1,0 +1,45 @@
+<ion-content *ngIf="isLoading">
+  <ion-card *ngFor="let request of requests" style="border-radius: 15px;">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="3">
+          <ion-thumbnail style="width: 100%; height: 100%">
+            <ion-img style="border-radius: 15px; width: 95%;" [src]="defaultPic"></ion-img>
+          </ion-thumbnail>
+        </ion-col>
+        <ion-col size="7" class="ion-margin-top-2">
+          <div>
+            <ion-label style="font-size: larger; font-weight: bold;" color="sec">
+              {{request?.ambulance?.driver?.firstname}}
+              {{request?.ambulance?.driver?.lastname}}</ion-label> <br>
+          </div>
+          <div>
+            <ion-label style="font-size: medium; font-weight: normal; margin-bottom: 10px;">{{request?.createdAt |
+              date: 'dd/MM/yyyy'}} {{request?.createdAt | date: "h'h'mm"}}
+            </ion-label>
+          </div>
+          <div style="margin-top: 10px;">
+            <ion-label style="padding: 3px 14px; 
+              border-radius: 15px; 
+              background-color: #aa9d703f; 
+              color: #ffc409; 
+              font-size: medium; 
+              font-weight: 700;
+              margin-right: 10px;">
+              Pending
+            </ion-label>
+            <ion-icon color="danger" size="medium" name="trash-bin-outline" (click)="cancel(request)"></ion-icon>
+          </div>
+        </ion-col>
+        <ion-col size="2">
+          <div class="icons call" (click)="callDriver(request)">
+            <ion-icon color="light" name="call-outline"></ion-icon>
+          </div>
+          <div class="icons track">
+            <ion-icon color="light" name="locate-outline"></ion-icon>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+</ion-content>

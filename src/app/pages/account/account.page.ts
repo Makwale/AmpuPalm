@@ -42,7 +42,8 @@ export class AccountPage implements OnInit {
     private dbs: DatabaseService,
     private acs: AccountService,
     private auth: AuthService,
-    public alertController: AlertController) { }
+    public alertController: AlertController,
+    private router: Router) { }
 
   ngOnInit() {
     this.accountForm = new FormBuilder().group({
@@ -68,6 +69,7 @@ export class AccountPage implements OnInit {
       postalCode: ['', [Validators.required]],
     });
 
+    console.log(this.acs.user);
 
     this.accountForm.controls.firstname.setValue(this.acs.user.firstname);
     this.accountForm.controls.lastname.setValue(this.acs.user.lastname);
@@ -77,9 +79,9 @@ export class AccountPage implements OnInit {
     this.physAddressForm.controls.town.setValue(this.acs.user.address.town);
     this.physAddressForm.controls.postalCode.setValue(this.acs.user.address.postalCode);
     if (this.acs.user.nextOfKin) {
-      this.nxtKinForm.controls.firstname.setValue(this.acs.user.firstname);
-      this.nxtKinForm.controls.lastname.setValue(this.acs.user.lastname);
-      this.nxtKinForm.controls.email.setValue(this.acs.user.email);
+      this.nxtKinForm.controls.firstname.setValue(this.acs.user.nextOfKin.firstname);
+      this.nxtKinForm.controls.lastname.setValue(this.acs.user.nextOfKin.lastname);
+      this.nxtKinForm.controls.email.setValue(this.acs.user.nextOfKin.email);
     }
   }
 
@@ -181,7 +183,6 @@ export class AccountPage implements OnInit {
         tempObj.id = res.payload.doc.id;
         return tempObj;
       });
-
       console.log(this.nextOfKings);
     });
   }
@@ -199,6 +200,9 @@ export class AccountPage implements OnInit {
       this.acs.user.nextOfKin = this.foundNxtOfKin;
       this.foundNxtOfKin = undefined;
       this.addNextOfKin = false;
+      this.addNxtKinForm?.setValue({
+        email: ''
+      });
       alert('Next of kin added');
     });
   }
@@ -225,12 +229,12 @@ export class AccountPage implements OnInit {
           role: 'cancel',
           cssClass: 'secondary',
           handler: (blah) => {
-            console.log('Confirm Cancel: blah');
           }
         }, {
           text: 'Yes',
           handler: () => {
             this.dbs.deleteNxtKin().then(_ => {
+              this.acs.user.nextOfKin = undefined;
             });
           }
         }
@@ -238,6 +242,14 @@ export class AccountPage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  ionViewWillLeave() {
+    // this.accountForm = undefined;
+    // this.physAddressForm = undefined;
+    // this.nxtKinForm = undefined;
+    // this.addNxtKinForm = undefined;
+    console.log('will leave');
   }
 
 

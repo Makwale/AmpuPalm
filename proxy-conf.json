@@ -1,0 +1,8 @@
+{
+	"/dev/*": {
+		"target": "https://yghabr9im7.execute-api.us-east-1.amazonaws.com",
+		"secure": false,
+		"logLevel": "debug",
+		"changeOrigin": true
+	}
+}

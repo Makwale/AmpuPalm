@@ -53,6 +53,7 @@ export class MenuPage implements OnInit {
   signout() {
     this.afa.signOut().then(res => {
       this.acs.loginStatus = false;
+      this.acs.user = undefined;
       this.router.navigateByUrl('menu');
       this.menu.toggle();
     });

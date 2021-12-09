@@ -8,7 +8,8 @@
   <base href="/" />
 
   <meta name="color-scheme" content="light dark" />
-  <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport"
+    content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="format-detection" content="telephone=no" />
   <meta name="msapplication-tap-highlight" content="no" />
 
@@ -19,28 +20,35 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
   <style type="text/css">
-    .brand-image{
+    .brand-image {
       height: 50px;
       width: 50px;
     }
 
-    .booking-cancel{
+    .booking-cancel {
       color: #031b36;
     }
 
-    .card{
+    .card {
       font-weight: bold;
       color: black;
       border-radius: 10px;
       border: 1px solid #031b362d;
     }
 
-    .card-button{
+    .card-button {
       font-weight: bolder;
       border-radius: 20px;
     }
 
-    .bus-icon{
+    .my-custom-class {
+      --background: #04081f;
+      --spinner-color: white;
+      color: white;
+      border-radius: 15px;
+    }
+
+    .bus-icon {
       background-image: url("./assets/bus.png");
     }
   </style>
@@ -52,9 +60,12 @@
 </head>
 
 <body class="mat-typography">
-  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
+  <script
+    src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
 
-  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css" type="text/css" />
+  <link rel="stylesheet"
+    href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css"
+    type="text/css" />
   <app-root></app-root>
 </body>
 

@@ -1,0 +1,6 @@
+{
+	"appId": "com.test.mode",
+	"appName": "AmbiPalm",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

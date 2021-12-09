@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.ambipalm.test',
-  appName: 'Ambi Palm',
+  appId: 'com.test.mode',
+  appName: 'AmbiPalm',
   webDir: 'www',
   bundledWebRuntime: false
 };

@@ -24,6 +24,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { HttpClientModule } from '@angular/common/http';
+
 const firebaseConfig = {
   apiKey: 'AIzaSyCsKBwG7VSGwF9G0SMTLr0ZMjdHPubr9jE',
   authDomain: 'ampipalm.firebaseapp.com',
@@ -49,7 +50,9 @@ const firebaseConfig = {
     MatAutocompleteModule,
     HttpClientModule,
     BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, ReactiveFormsModule, BrowserAnimationsModule],
-  providers: [SpeechRecognition, { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, FormBuilder, AuthService, BarcodeScanner],
+  providers: [SpeechRecognition, OneSignal,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    FormBuilder, AuthService, BarcodeScanner],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

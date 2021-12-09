@@ -12,26 +12,28 @@ import { AccountService } from 'src/app/services/account.service';
 export class ProfilePage implements OnInit {
 
   constructor(private router: Router, private afa: AngularFireAuth,
-     private acs: AccountService, public popoverController: PopoverController) { }
+    private acs: AccountService, public popoverController: PopoverController) { }
 
   ngOnInit() {
   }
 
-  navigate(){
-    this.router.navigateByUrl("account")
+  navigate() {
+    this.router.navigateByUrl('account');
 
-    this.popoverController.dismiss()
+    this.popoverController.dismiss();
   }
 
-  signout(){
-    this.router.navigateByUrl("")
-    this.afa.signOut().then(res => {
+  async signout() {
+    await this.afa.signOut().then(async res => {
       this.acs.loginStatus = false;
-      this.acs.user = null;
-      
-    })
+      console.log(this.acs.user);
+      this.acs.user = undefined;
+      console.log(this.acs.user);
+      await this.popoverController.dismiss();
+      this.router.navigateByUrl('');
 
-    this.popoverController.dismiss()
+    });
+
   }
 
 

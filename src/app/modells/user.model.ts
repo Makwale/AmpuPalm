@@ -9,5 +9,5 @@ export class User {
     address?: Address;
     nxtKinId?;
     nextOfKin?: User;
-
+    playerId?: string;
 }

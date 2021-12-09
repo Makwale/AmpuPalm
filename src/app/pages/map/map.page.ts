@@ -49,7 +49,7 @@ export class MapPage implements OnInit {
       alternatives: true,
       congestion: true,
       unit: 'metric',
-      controls: { instructions: false },
+      controls: { instructions: true },
 
     });
 

@@ -3,7 +3,9 @@ import { FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Valida
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
+import { User } from 'src/app/modells/user.model';
 import { AuthService } from 'src/app/services/auth.service';
+import { DatabaseService } from 'src/app/services/database.service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -37,8 +39,14 @@ export class SignupPage implements OnInit, OnDestroy {
   codeEnabled = false;
   // Next of kin email
   nxtKinEmailEnabled = false;
-  constructor(private router: Router, private auth: AuthService,
-    private toastController: ToastController) { }
+  nextOfKings: User[];
+  foundNxtOfKin: User;
+  selectedNxtOfKin: User;
+  constructor(
+    private router: Router,
+    private auth: AuthService,
+    private toastController: ToastController,
+    private dbs: DatabaseService) { }
 
   ngOnInit() {
     this.signupForm = new FormBuilder().group({
@@ -66,6 +74,14 @@ export class SignupPage implements OnInit, OnDestroy {
     this.signupForm.controls.email.setValue('');
     this.signupForm.controls.password.setValue('');
     this.signupForm.controls.cpassword.setValue('');
+    this.dbs.getNextOfKins().subscribe(data => {
+      this.nextOfKings = data.map(res => {
+        const tempObj: User = res.payload.doc.data();
+        tempObj.id = res.payload.doc.id;
+        return tempObj;
+      });
+      console.log(this.nextOfKings);
+    });
 
   }
 
@@ -101,9 +117,11 @@ export class SignupPage implements OnInit, OnDestroy {
   }
 
   async signup() {
-
     if (this.signupForm.value.password === this.signupForm.value.cpassword) {
-      this.auth.signup(this.signupForm, this.physAddressForm);
+      this.auth.signup(
+        this.signupForm,
+        this.physAddressForm,
+        this.selectedNxtOfKin ? this.selectedNxtOfKin.id : '');
     } else {
       const toast = await this.toastController.create({
         message: 'Passwords do not match',
@@ -166,6 +184,20 @@ export class SignupPage implements OnInit, OnDestroy {
       this.hasCode = String(this.signupForm.value.phone).substring(0, 3) === '+27' ? true : false;
     };
 
+  }
+
+  select(event: any) {
+    console.log(event);
+    if (event.target.checked) {
+      this.selectedNxtOfKin = this.foundNxtOfKin;
+    } else {
+      this.selectedNxtOfKin = undefined;
+    }
+  }
+
+  searchNextOfKin() {
+    this.foundNxtOfKin = this.nextOfKings.find(
+      user => user.email === String(this.nextKinForm.controls.nextKinEmail.value).trim());
   }
 
 }

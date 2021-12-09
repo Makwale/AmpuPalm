@@ -195,7 +195,8 @@
           <ion-item class="input">
             <ion-label color="sec" position="stacked">Next of kin Email</ion-label>
             <ion-input style="font-weight: bold; font-size: 91%;" tabindex="4" type="password"
-              (ionInput)="nxtKinEmailEnable()" formControlName="nextKinEmail" type="email" enterkeyhint="next">
+              (ionInput)="nxtKinEmailEnable()" (ionChange)="searchNextOfKin()" formControlName="nextKinEmail"
+              type="email" enterkeyhint="next">
             </ion-input>
           </ion-item>
 
@@ -211,6 +212,13 @@
 
           </div>
         </form>
+        <ion-item class="ion-margin" (click)="select($event)" *ngIf="foundNxtOfKin">
+          <ion-checkbox></ion-checkbox>
+          <ion-badge style=" margin-left: 8px; background-color: #f575794b; color: #f5757a; font-size: medium; padding: 6px
+            13px; border-radius: 13px;">
+            {{foundNxtOfKin.firstname}} {{foundNxtOfKin.lastname}}
+          </ion-badge>
+        </ion-item>
         <div style="margin-top: 14px;">
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext>Next</button>
@@ -220,8 +228,8 @@
       <mat-step label="Done">
         <div style="text-align: center;">
           <button [disabled]="signupForm.status === 'INVALID'" (click)="signup()" class="button">
+            <ion-spinner *ngIf="auth.clicked" color="light" name="dots"></ion-spinner>
             <span *ngIf="!auth.clicked">Sign Up</span>
-            <ion-spinner *ngIf="auth.clicked" name="dots"></ion-spinner>
           </button>
         </div>
         <div style="margin-top: 14px;">
