@@ -1,14 +1,70 @@
 <ion-content [fullscreen]="true">
-  <div class="container">
-    <div class="contents">
-      <h3 class="welcome">Hi, welcome to back to Ambi
-        paml service</h3>
-      <div style="text-align: center;">
-        <img src="assets/amb.png">
-      </div>
-      <div class="outer" (click)="requestAmbulance()">
-        <div class="inner"></div>
-      </div>
-    </div>
-  </div>
+  <ion-item-divider>
+    <ion-label slot="start"> Latest request </ion-label>
+  </ion-item-divider>
+
+  <ion-item-sliding>
+    <ion-item>
+      <ion-label slot="start"> {{ date | date: 'MM/dd/yyyy'}} </ion-label>
+      <ion-label slot="end"> {{ date | date: 'hh:mm'}} </ion-label>
+    </ion-item>
+    <ion-item-options>
+      <ion-item-option color="sec">
+        <ion-icon slot="start" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+        More
+      </ion-item-option>
+      <ion-item-option (click)="navigateToMap()" color="ourtheme">
+        <ion-icon color="light" slot="start" name="location"></ion-icon>
+      </ion-item-option>
+    </ion-item-options>
+  </ion-item-sliding>
+  <ion-item-sliding>
+    <ion-item>
+      <ion-label slot="start"> {{ date | date: 'MM/dd/yyyy'}} </ion-label>
+      <ion-label slot="end"> {{ date | date: 'hh:mm'}} </ion-label>
+    </ion-item>
+    <ion-item-options>
+      <ion-item-option color="sec">
+        <ion-icon slot="start" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+        More
+      </ion-item-option>
+      <ion-item-option color="ourtheme">
+        <ion-icon slot="start" name="archive"></ion-icon>
+        Archive
+      </ion-item-option>
+    </ion-item-options>
+  </ion-item-sliding>
+  <ion-item-sliding>
+    <ion-item>
+      <ion-label slot="start"> {{ date | date: 'MM/dd/yyyy'}} </ion-label>
+      <ion-label slot="end"> {{ date | date: 'hh:mm'}} </ion-label>
+    </ion-item>
+    <ion-item-options>
+      <ion-item-option color="primary">
+        <ion-icon slot="start" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+        More
+      </ion-item-option>
+      <ion-item-option color="secondary">
+        <ion-icon slot="start" name="archive"></ion-icon>
+        Archive
+      </ion-item-option>
+    </ion-item-options>
+  </ion-item-sliding>
+  <ion-item-sliding>
+    <ion-item>
+      <ion-label slot="start"> {{ date | date: 'MM/dd/yyyy'}} </ion-label>
+      <ion-label slot="end"> {{ date | date: 'hh:mm'}} </ion-label>
+    </ion-item>
+    <ion-item-options>
+      <ion-item-option color="primary">
+        <ion-icon slot="start" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+        More
+      </ion-item-option>
+      <ion-item-option color="secondary">
+        <ion-icon slot="start" name="archive"></ion-icon>
+        Archive
+      </ion-item-option>
+    </ion-item-options>
+  </ion-item-sliding>
+
 </ion-content>

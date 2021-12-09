@@ -18,6 +18,8 @@ declare let mapboxgl: any;
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit, DoCheck {
+  date = new Date();
+  requests = [];
   constructor(
     public modalController: ModalController,
     private dbs: DatabaseService,
@@ -31,6 +33,7 @@ export class HomePage implements OnInit, DoCheck {
     private speechRecognition: SpeechRecognition) { }
 
   ngOnInit() {
+    this.getRequests();
   }
 
   ionViewDidEnter() {
@@ -54,4 +57,19 @@ export class HomePage implements OnInit, DoCheck {
     //   });
   }
 
+  navigateToMap() {
+    this.router.navigateByUrl('menu/map');
+  }
+
+  getRequests() {
+    this.dbs.getRequests().subscribe((res) => {
+      this.requests = res.map(data => {
+        return {
+          id: data.payload.doc.id,
+          data: data.payload.doc.data()
+        }
+      })
+      console.log(this.requests);
+    });
+  }
 }

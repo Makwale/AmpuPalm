@@ -182,5 +182,8 @@ export class DatabaseService {
     return this.afs.collection('ambulance_request').doc(id).delete();
   }
 
+  getRequests() {
+    return this.afs.collection('ambulance_request', ref => ref.where('ambulanceId', '==', 'IOlkjKeXKZe0E09HkTFb')).snapshotChanges();
+  }
 
 }
