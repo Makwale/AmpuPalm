@@ -19,17 +19,21 @@ export class MapPage implements OnInit {
   loading;
   marker;
   direction;
-  constructor(private ts: TrackingService, private dbs: DatabaseService,
-    public loadingController: LoadingController) {
+  id;
+  userCorrds = [];
+  constructor(
+    private ts: TrackingService,
+    private dbs: DatabaseService,
+    public loadingController: LoadingController,
+    private activateRoute: ActivatedRoute
+  ) {
 
   }
 
   ngOnInit() {
-
   }
 
-  ionViewDidEnter() {
-
+  async ionViewDidEnter() {
     mapboxgl.accessToken = 'pk.eyJ1IjoibWFudWVsbWFrd2FsZSIsImEiOiJja2hsc3lmYWUyZzRnMnRsNnY2NWIyeGR6In0.1MGnfpXj_dV2QBO3SchfqA';
 
     this.map = new mapboxgl.Map({
@@ -42,6 +46,14 @@ export class MapPage implements OnInit {
     });
 
     // Set marker options.
+    this.userCorrds = await this.dbs.getCurrentLocation();
+
+    this.activateRoute.queryParams.subscribe(data => {
+      this.id = data.id;
+      this.direction.setDestination([this.userCorrds[1], this.userCorrds[0]]);
+
+      this.track();
+    });
 
     this.direction = new MapboxDirections({
       accessToken: mapboxgl.accessToken,
@@ -49,11 +61,12 @@ export class MapPage implements OnInit {
       alternatives: true,
       congestion: true,
       unit: 'metric',
-      controls: { instructions: true },
+      controls: { instructions: false },
 
     });
 
     this.map.addControl(this.direction, 'bottom-left');
+
     this.map.addControl(new mapboxgl.NavigationControl());
 
     this.map.addControl(new mapboxgl.FullscreenControl());
@@ -67,6 +80,24 @@ export class MapPage implements OnInit {
   }
 
   ionViewWillLeave() {
+  }
+
+  track() {
+
+    const temp = 0;
+    // const destination = new mapboxgl.LngLat([]);
+    const ambiMarker = new mapboxgl.Marker({
+      color: '#0a4694'
+    }).setLngLat([0, 0]).addTo(this.map);
+
+    this.dbs.getAmbulanceCoordinates(this.id).subscribe(data => {
+      const tempData: any = data.payload.data();
+      const geo = tempData.geo;
+      this.direction.setOrigin([geo.longitude, geo.latitude]);
+      ambiMarker.setLngLat([geo.longitude, geo.latitude]);
+      this.map.jumpTo({ center: [geo.longitude, geo.latitude] });
+      console.log(geo);
+    });
   }
 
 }

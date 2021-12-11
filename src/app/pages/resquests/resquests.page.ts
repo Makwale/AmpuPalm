@@ -3,6 +3,7 @@ import { DatabaseService } from 'src/app/services/database.service';
 import { AmbulanceRequest } from '../../modells/request.model';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-resquests',
   templateUrl: './resquests.page.html',
@@ -15,7 +16,8 @@ export class ResquestsPage implements OnInit {
   constructor(
     private dbs: DatabaseService,
     private callNumber: CallNumber,
-    public alertController: AlertController) { }
+    public alertController: AlertController,
+    private router: Router) { }
 
   ngOnInit() {
     this.dbs.getAmublanceRequests().subscribe(async data => {
@@ -83,4 +85,10 @@ export class ResquestsPage implements OnInit {
     await alert.present();
   }
 
+  track(request: AmbulanceRequest) {
+    // if (request.status === 'onway') {
+    //   this.router.navigate(['menu/map'], { queryParams: { req: request } });
+    // }
+    this.router.navigate(['menu/map'], { queryParams: { id: request.ambulance.id } });
+  }
 }

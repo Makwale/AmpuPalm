@@ -76,17 +76,17 @@ export class DatabaseService {
   }
 
   async requestAmbulance(reason: string[]) {
-    this.getCurrentLocation().then(res => {
+    this.getCurrentLocation().then(async res => {
+      const ambId = await this.searchNearestAmbulance();
       this.afs.collection('ambulance_request').add({
         userId: this.acs.user.id,
-        ambulanceId: 'IOlkjKeXKZe0E09HkTFb',
+        ambulanceId: ambId,
         createdAt: new Date(),
         geo: res,
         reason: reason[0]
       }).then(async _ => {
         this.ourToast('Ambulance requested', 'success');
         await Promise.all([
-          this.searchNearestAmbulance([]),
           this.sendNotification([this.acs.user.nextOfKin?.playerId], 'Next of kin test mode')
         ]);
       }).catch(error => {
@@ -95,23 +95,25 @@ export class DatabaseService {
     });
   }
 
-  searchNearestAmbulance(coords: any[]): Promise<any> {
+  searchNearestAmbulance(): Promise<any> {
     let lowestDistance = 1_000_000;
     let ambulance: any;
+    let id: string;
     return new Promise(resolve => {
-      this.afs.collection('ambulance').snapshotChanges().subscribe(results => {
+      this.afs.collection('ambulance', ref => ref.where('status', '==', 'available')).snapshotChanges().subscribe(results => {
         for (const res of results) {
           const ambiPos = new mapboxgl.LngLat((res.payload.doc.data() as any).geo.longitude, (res.payload.doc.data() as any).geo.latitude);
           const distance = this.currentPos.distanceTo(ambiPos);
           if (distance < lowestDistance) {
             lowestDistance = distance;
             ambulance = res.payload.doc.data();
+            id = res.payload.doc.id;
           }
         }
 
         this.afs.collection('driver').doc(ambulance.driverId).snapshotChanges().subscribe(async driverres => {
           await this.sendNotification([(driverres.payload.data() as any).playerid], 'Driver Test mode').then(_ => {
-            resolve('success');
+            resolve(id);
           });
         });
       });
@@ -181,5 +183,8 @@ export class DatabaseService {
     return this.afs.collection('ambulance_request').doc(id).delete();
   }
 
+  getAmbulanceCoordinates(id: string) {
+    return this.afs.collection('ambulance').doc(id).snapshotChanges();
+  }
 
 }
