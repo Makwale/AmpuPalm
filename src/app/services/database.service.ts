@@ -83,7 +83,8 @@ export class DatabaseService {
         ambulanceId: ambId,
         createdAt: new Date(),
         geo: res,
-        reason: reason[0]
+        reason: reason[0],
+        status: 'pending'
       }).then(async _ => {
         this.ourToast('Ambulance requested', 'success');
         await Promise.all([

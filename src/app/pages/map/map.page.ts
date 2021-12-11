@@ -87,7 +87,7 @@ export class MapPage implements OnInit {
     const temp = 0;
     // const destination = new mapboxgl.LngLat([]);
     const ambiMarker = new mapboxgl.Marker({
-      color: '#0a4694'
+      color: '#f5757a'
     }).setLngLat([0, 0]).addTo(this.map);
 
     this.dbs.getAmbulanceCoordinates(this.id).subscribe(data => {

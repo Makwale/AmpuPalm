@@ -19,14 +19,32 @@
             </ion-label>
           </div>
           <div style="margin-top: 10px;">
-            <ion-label style="padding: 3px 14px; 
+            <ion-label *ngIf="request.status === 'pending'" style="padding: 3px 14px; 
               border-radius: 15px; 
               background-color: #aa9d703f; 
               color: #ffc409; 
               font-size: medium; 
               font-weight: 700;
               margin-right: 10px;">
-              Pending
+              {{request.status}}
+            </ion-label>
+            <ion-label *ngIf="request.status === 'accepted'" style="padding: 3px 14px; 
+              border-radius: 15px; 
+              background-color: rgba(0, 128, 0, 0.24); 
+              color: green; 
+              font-size: medium; 
+              font-weight: 700;
+              margin-right: 10px;">
+              {{request.status}}
+            </ion-label>
+            <ion-label *ngIf="request.status === 'onway'" style="padding: 3px 14px; 
+              border-radius: 15px; 
+              background-color: rgba(1, 53, 131, 0.171);
+              color: rgb(1, 53, 131);; 
+              font-size: medium; 
+              font-weight: 700;
+              margin-right: 10px;">
+              {{request.status}}
             </ion-label>
             <ion-icon color="danger" size="medium" name="trash-bin-outline" (click)="cancel(request)"></ion-icon>
           </div>
