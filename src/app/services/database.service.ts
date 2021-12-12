@@ -196,4 +196,14 @@ export class DatabaseService {
   locateUser() {
     return this.afs.collection('ambulance_request').doc(this.userRequestId).valueChanges();
   }
+
+  updatAmbiLocation() {
+    navigator.geolocation.watchPosition(pos => {
+      const lat = pos.coords.latitude;
+      const lon = pos.coords.longitude;
+      this.afs.collection('ambulance').doc(this.acs.user.ambiId).update({
+        geo: [lat, lon]
+      });
+    });
+  }
 }

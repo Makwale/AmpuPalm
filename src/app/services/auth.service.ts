@@ -46,20 +46,23 @@ export class AuthService {
     this.oneSignal.endInit();
     this.afa.signInWithEmailAndPassword(email, password)
       .then(async res => {
-        await this.oneSignal.getIds().then(async oneSignalRes => {
-          await this.afs.collection('driver').doc(res.user.uid).update({
-            playerid: oneSignalRes.userId
-          });
-        });
+        // await this.oneSignal.getIds().then(async oneSignalRes => {
+        //   await this.afs.collection('driver').doc(res.user.uid).update({
+        //     playerid: oneSignalRes.userId
+        //   });
+        // });
         this.acs.loginStatus = true;
         this.afs.collection('driver').doc(res.user.uid).snapshotChanges().subscribe(async results => {
-          const userdata: User = results.payload.data() as User;
-          userdata.id = res.user.uid;
-          console.log(userdata);
-          this.acs.user = userdata;
-          this.acs.loginStatus = true;
-          this.clicked = false;
-          this.router.navigateByUrl('menu/home');
+          this.afs.collection('ambulance', ref => ref.where('driverId', '==', res.user.uid)).snapshotChanges().subscribe(ambiData => {
+            const userdata: User = results.payload.data() as User;
+            userdata.id = res.user.uid;
+            userdata.ambiId = ambiData[0]?.payload.doc.id;
+            console.log(userdata);
+            this.acs.user = userdata;
+            this.acs.loginStatus = true;
+            this.clicked = false;
+            this.router.navigateByUrl('menu/home');
+          });
 
         });
         this.router.navigateByUrl('/menu/home');

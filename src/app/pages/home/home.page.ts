@@ -90,5 +90,8 @@ export class HomePage implements OnInit, DoCheck {
     this.dbs.changeRequestStatus(status, id).then(res => {
       this.dbs.ourToast('Status changed', 'success');
     });
+    if (status === 'onway') {
+      this.dbs.updatAmbiLocation();
+    }
   }
 }

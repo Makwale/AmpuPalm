@@ -11,4 +11,5 @@ export class User {
     nextOfKin?: User;
     playerId?: string;
     phone?: string;
+    ambiId?: string;
 }
