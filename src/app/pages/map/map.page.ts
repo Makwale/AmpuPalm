@@ -48,13 +48,6 @@ export class MapPage implements OnInit {
     // Set marker options.
     this.userCorrds = await this.dbs.getCurrentLocation();
 
-    this.activateRoute.queryParams.subscribe(data => {
-      this.id = data.id;
-      this.direction.setDestination([this.userCorrds[1], this.userCorrds[0]]);
-
-      this.track();
-    });
-
     this.direction = new MapboxDirections({
       accessToken: mapboxgl.accessToken,
       profile: 'mapbox/driving',
@@ -66,6 +59,15 @@ export class MapPage implements OnInit {
     });
 
     this.map.addControl(this.direction, 'bottom-left');
+    this.activateRoute.queryParams.subscribe(data => {
+      console.log(data);
+      if (data.id) {
+        this.id = data.id;
+        console.log(this.userCorrds);
+        this.direction?.setDestination([this.userCorrds[1], this.userCorrds[0]]);
+        this.track();
+      }
+    });
 
     this.map.addControl(new mapboxgl.NavigationControl());
 
