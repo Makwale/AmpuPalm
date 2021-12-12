@@ -47,11 +47,11 @@ export class AppComponent implements OnInit {
 
     this.auth.user.subscribe(async user => {
       if (user) {
-        // await this.oneSignal.getIds().then(async oneSignalRes => {
-        //   await this.afs.collection('user').doc(user.uid).update({
-        //     playerid: oneSignalRes.userId
-        //   });
-        // });
+        await this.oneSignal.getIds().then(async oneSignalRes => {
+          await this.afs.collection('user').doc(user.uid).update({
+            playerid: oneSignalRes.userId
+          });
+        });
         this.afs.collection('user').doc(user.uid).snapshotChanges().subscribe(results => {
           const userdata: User = results.payload.data() as User;
           userdata.id = user.uid;
