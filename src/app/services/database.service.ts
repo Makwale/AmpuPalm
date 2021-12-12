@@ -22,6 +22,7 @@ declare let MapboxDirections;
 })
 export class DatabaseService {
   currentPos;
+  userRequestId;
   constructor(private afs: AngularFirestore,
     public popoverController: PopoverController,
     private acs: AccountService,
@@ -186,4 +187,13 @@ export class DatabaseService {
     return this.afs.collection('ambulance_request', ref => ref.where('ambulanceId', '==', 'IOlkjKeXKZe0E09HkTFb')).snapshotChanges();
   }
 
+  changeRequestStatus(status: string, id) {
+    return this.afs.collection('ambulance_request').doc(id).update({
+      status
+    });
+  }
+
+  locateUser() {
+    return this.afs.collection('ambulance_request').doc(this.userRequestId).valueChanges();
+  }
 }

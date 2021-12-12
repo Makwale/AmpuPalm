@@ -4,6 +4,7 @@ import { DatabaseService } from 'src/app/services/database.service';
 import { TrackingService } from 'src/app/services/tracking.service';
 import { LoadingController } from '@ionic/angular';
 import { MapboxStyleSwitcherControl } from 'mapbox-gl-style-switcher';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 declare let mapboxgl: any;
 // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -19,17 +20,21 @@ export class MapPage implements OnInit {
   loading;
   marker;
   direction;
-  constructor(private ts: TrackingService, private dbs: DatabaseService,
-    public loadingController: LoadingController) {
+  id;
+  busMarker: any;
+  constructor(
+    private ts: TrackingService,
+    private dbs: DatabaseService,
+    public loadingController: LoadingController,
+    private activatedRoute: ActivatedRoute,
+    private afs: AngularFirestore) {
 
   }
 
   ngOnInit() {
-
   }
 
   ionViewDidEnter() {
-
     mapboxgl.accessToken = 'pk.eyJ1IjoibWFudWVsbWFrd2FsZSIsImEiOiJja2hsc3lmYWUyZzRnMnRsNnY2NWIyeGR6In0.1MGnfpXj_dV2QBO3SchfqA';
 
     this.map = new mapboxgl.Map({
@@ -64,9 +69,29 @@ export class MapPage implements OnInit {
       },
       trackUserLocation: true
     }));
+    this.locateUser();
   }
 
   ionViewWillLeave() {
+  }
+
+  locateUser() {
+    console.log(this.dbs.userRequestId);
+    this.dbs.locateUser().subscribe((data: any) => {
+      this.afs.collection('user').doc(data.userId).valueChanges().subscribe((userdata: any) => {
+        this.busMarker = new mapboxgl.Marker({
+          color: '#04081f'
+        }).setLngLat([data.geo[1], data.geo[0]]).addTo(this.map);
+        new mapboxgl.Popup({
+          closeButton: false,
+          anchor: 'top',
+          closeOnClick: false
+        }).setText(
+          `Made by: ${userdata.firstname} ${userdata.lastname}. Reason: dsfdsdgfdgffdsfsdfdsf`
+        ).setLngLat([data.geo[1], data.geo[0]]).addTo(this.map);
+      });
+    });
+
   }
 
 }

@@ -40,6 +40,7 @@ export class HomePage implements OnInit, DoCheck {
   }
 
   ngDoCheck() {
+
   }
 
   async requestAmbulance() {
@@ -57,19 +58,37 @@ export class HomePage implements OnInit, DoCheck {
     //   });
   }
 
-  navigateToMap() {
+  navigateToMap(id: string) {
+    this.dbs.userRequestId = id;
     this.router.navigateByUrl('menu/map');
   }
 
   getRequests() {
     this.dbs.getRequests().subscribe((res) => {
       this.requests = res.map(data => {
+        const tempdata: any = data.payload.doc.data();
+        tempdata.createdAt = tempdata.createdAt?.toDate();
         return {
           id: data.payload.doc.id,
-          data: data.payload.doc.data()
+          data: tempdata,
+        };
+      });
+      this.requests.sort((a, b) => {
+        if (a.data.createdAt > b.data.createdAt) {
+          return 1;
         }
+        if (a.data.createdAt < b.data.createdAt) {
+          return -1;
+        }
+        return 0;
       });
       console.log(this.requests);
+    });
+  }
+
+  changeStatus(status: string, id: string) {
+    this.dbs.changeRequestStatus(status, id).then(res => {
+      this.dbs.ourToast('Status changed', 'success');
     });
   }
 }
