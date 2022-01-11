@@ -103,6 +103,7 @@ export class DatabaseService {
     return new Promise(resolve => {
       this.afs.collection('ambulance').snapshotChanges().subscribe(results => {
         for (const res of results) {
+          console.log((res.payload.doc.data() as any).geo.latitude);
           const ambiPos = new mapboxgl.LngLat((res.payload.doc.data() as any).geo.longitude, (res.payload.doc.data() as any).geo.latitude);
           const distance = this.currentPos.distanceTo(ambiPos);
           if (distance < lowestDistance) {
@@ -121,6 +122,7 @@ export class DatabaseService {
   }
 
   sendNotification(playerids: string[], message) {
+    console.log(playerids);
     const osn: OSNotification = {
       app_id: environment.appId,
       include_player_ids: playerids,
