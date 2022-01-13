@@ -26,8 +26,11 @@ export class AppComponent implements OnInit {
     private afs: AngularFirestore,
     private speechRecognition: SpeechRecognition,
     public loadingController: LoadingController,
-    private oneSignal: OneSignal) { }
+    private oneSignal: OneSignal,
+    private as: AuthService) { }
   async ngOnInit() {
+
+    this.as.signIn('test@gmail.com', 'Manuelmame35@');
     this.oneSignal.startInit(environment.appId, environment.projectId);
     this.oneSignal.endInit();
     // this.statusBar.overlaysWebView(false);

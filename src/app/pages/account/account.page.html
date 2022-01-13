@@ -71,11 +71,17 @@
     </ion-item>
 
   </form>
-  <!-- <ion-button [disabled]="!isEditable || signupForm.status === 'INVALID'" size="medium" expand="block" color="ourtheme"
-    (click)="update()">Update</ion-button> -->
-  <button (click)="update()" *ngIf=""
-    style="margin-left: 16px;width: 90%; height: 55px; color: #fff;background-color: #04081f; border-radius: 15px; margin-top: 10px; margin-bottom: 10px;">
-    <span *ngIf="!auth.clicked">Update</span>
-    <ion-spinner *ngIf="auth.clicked" name="dots" color="light"></ion-spinner>
-  </button>
+  <ion-item-divider>
+    <ion-label slot="end" color="sec" class="ion-margin">
+      Ambulance information
+    </ion-label>
+  </ion-item-divider>
+  <ion-label class="ion-margin">Registration No 45454</ion-label>
+
+  <ion-label>Status</ion-label>
+  <mat-button-toggle-group name="favoriteColor" value="blue" aria-label="Favorite Color">
+    <mat-button-toggle value="available">Available</mat-button-toggle>
+    <mat-button-toggle value="green">Green</mat-button-toggle>
+    <mat-button-toggle value="blue">Blue</mat-button-toggle>
+  </mat-button-toggle-group>
 </ion-content>

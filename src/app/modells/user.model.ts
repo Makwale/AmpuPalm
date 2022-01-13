@@ -1,5 +1,9 @@
 import { Address } from './address.model';
 
+interface Ambulance {
+    regno;
+    status;
+}
 export class User {
     id?;
     firstname?;
@@ -12,4 +16,7 @@ export class User {
     playerId?: string;
     phone?: string;
     ambiId?: string;
+    ambulance?: Ambulance;
 }
+
+

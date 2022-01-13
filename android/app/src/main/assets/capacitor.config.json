@@ -1,6 +1,6 @@
 {
 	"appId": "com.driver.test",
-	"appName": "AmbiDriver",
+	"appName": "AmbipalmDriver",
 	"webDir": "www",
 	"bundledWebRuntime": false
 }
