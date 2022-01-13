@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from '@angular/router';
@@ -9,6 +9,7 @@ import { DatabaseService } from 'src/app/services/database.service';
 import { AccountService } from 'src/app/services/account.service';
 import { User } from 'src/app/modells/user.model';
 import { AlertController } from '@ionic/angular';
+import { MatButtonToggleChange } from '@angular/material/button-toggle';
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     const isSubmitted = form && form.submitted;
@@ -55,6 +56,7 @@ export class AccountPage implements OnInit {
     this.accountForm.controls.lastname.setValue(this.acs.user.lastname);
     this.accountForm.controls.phone.setValue(this.acs.user.phone);
     this.accountForm.controls.email.setValue(this.acs.user.email);
+
   }
 
   get firstname() { return this.accountForm.get('firstname'); }
@@ -154,5 +156,8 @@ export class AccountPage implements OnInit {
     console.log('will leave');
   }
 
+  changeStatus(event: MatButtonToggleChange) {
+    this.dbs.changeStatus(event.value);
+  }
 
 }

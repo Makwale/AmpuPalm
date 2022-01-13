@@ -21,6 +21,7 @@ declare let MapboxDirections;
   providedIn: 'root'
 })
 export class DatabaseService {
+
   currentPos;
   userRequestId;
   constructor(private afs: AngularFirestore,
@@ -206,6 +207,15 @@ export class DatabaseService {
       this.afs.collection('ambulance').doc(this.acs.user.ambiId).update({
         geo: [lat, lon]
       });
+    });
+  }
+  changeStatus(value: any) {
+    this.afs.collection('ambulance').doc(this.acs.user.ambiId).update({
+      status: value
+    }).then(() => {
+      this.ourToast('Status changed', 'success');
+    }).catch(error => {
+      this.ourToast(error, 'danger');
     });
   }
 }
