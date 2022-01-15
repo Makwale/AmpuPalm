@@ -32,8 +32,17 @@ export class HomePage implements OnInit, DoCheck {
     public loadingController: LoadingController,
     private speechRecognition: SpeechRecognition) { }
 
-  ngOnInit() {
-    this.getRequests();
+  async ngOnInit() {
+    const loading = await this.loadingController.create({
+      spinner: 'dots',
+      cssClass: 'my-custom-class',
+      message: 'Please wait...',
+    });
+    await loading.present();
+    setTimeout(() => {
+      this.getRequests();
+      loading.dismiss();
+    }, 6000);
   }
 
   ionViewDidEnter() {
@@ -64,7 +73,8 @@ export class HomePage implements OnInit, DoCheck {
   }
 
   getRequests() {
-    this.dbs.getRequests().subscribe((res) => {
+    this.dbs.getRequests(this.acs?.user?.ambiId).subscribe((res) => {
+      console.log(res);
       this.requests = res.map(data => {
         const tempdata: any = data.payload.doc.data();
         tempdata.createdAt = tempdata.createdAt?.toDate();
@@ -74,10 +84,10 @@ export class HomePage implements OnInit, DoCheck {
         };
       });
       this.requests.sort((a, b) => {
-        if (a.data.createdAt > b.data.createdAt) {
+        if (a.data.createdAt < b.data.createdAt) {
           return 1;
         }
-        if (a.data.createdAt < b.data.createdAt) {
+        if (a.data.createdAt > b.data.createdAt) {
           return -1;
         }
         return 0;

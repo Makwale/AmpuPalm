@@ -78,6 +78,7 @@ export class MapPage implements OnInit {
   locateUser() {
     console.log(this.dbs.userRequestId);
     this.dbs.locateUser().subscribe((data: any) => {
+      console.log(data.geo);
       this.afs.collection('user').doc(data.userId).valueChanges().subscribe((userdata: any) => {
         this.busMarker = new mapboxgl.Marker({
           color: '#04081f'
@@ -87,7 +88,7 @@ export class MapPage implements OnInit {
           anchor: 'top',
           closeOnClick: false
         }).setText(
-          `Made by: ${userdata.firstname} ${userdata.lastname}. Reason: dsfdsdgfdgffdsfsdfdsf`
+          `Made by: ${userdata?.firstname} ${userdata?.lastname}. Reason being ${data?.reason}`
         ).setLngLat([data.geo[1], data.geo[0]]).addTo(this.map);
       });
     });
