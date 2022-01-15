@@ -18,6 +18,10 @@ img{
   margin-left: auto; 
   margin-right: auto; 
   text-align: center;
+  span{
+    color: #f5757a;
+    font-size: 105%;
+  }
 }
 
 .outer{
@@ -39,5 +43,18 @@ img{
     margin-right: -50%;
     transform: translate(-50%, -50%)
   }
+
+  .inner:active{
+    background-color: #db8083ad;
+    width: 65px;
+    height: 65px;
+  }
 }
+
+.outer:active{
+  width: 105px;
+  height: 105px;
+}
+
+
 

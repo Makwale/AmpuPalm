@@ -94,7 +94,10 @@ export class MapPage implements OnInit {
 
     this.dbs.getAmbulanceCoordinates(this.id).subscribe(data => {
       const tempData: any = data.payload.data();
-      const geo = tempData.geo;
+      const geo = {
+        longitude: tempData.geo[1],
+        latitude: tempData.geo[0],
+      };
       this.direction.setOrigin([geo.longitude, geo.latitude]);
       ambiMarker.setLngLat([geo.longitude, geo.latitude]);
       this.map.jumpTo({ center: [geo.longitude, geo.latitude] });

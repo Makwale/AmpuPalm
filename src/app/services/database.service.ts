@@ -78,6 +78,7 @@ export class DatabaseService {
   async requestAmbulance(reason: string[]) {
     this.getCurrentLocation().then(async res => {
       const ambId = await this.searchNearestAmbulance();
+
       this.afs.collection('ambulance_request').add({
         userId: this.acs.user.id,
         ambulanceId: ambId,
@@ -88,9 +89,9 @@ export class DatabaseService {
       }).then(async _ => {
         this.ourToast('Ambulance requested', 'success');
         if (this.acs.user.nextOfKin) {
-          // await Promise.all([
-          //   this.sendNotification([this.acs.user.nextOfKin?.playerId], 'Next of kin test mode')
-          // ]);
+          await Promise.all([
+            this.sendNotification([this.acs.user.nextOfKin?.playerId], `${this.acs.user.firstname} is not feeling well, check him/her out`)
+          ]);
         }
       }).catch(error => {
         this.ourToast('Something wrong happened', 'danger');
@@ -105,19 +106,20 @@ export class DatabaseService {
     return new Promise(resolve => {
       this.afs.collection('ambulance', ref => ref.where('status', '==', 'available')).snapshotChanges().subscribe(results => {
         for (const res of results) {
-          const ambiPos = new mapboxgl.LngLat((res.payload.doc.data() as any).geo.longitude, (res.payload.doc.data() as any).geo.latitude);
+          const ambiPos = new mapboxgl.LngLat((res.payload.doc.data() as any).geo[1], (res.payload.doc.data() as any).geo[0]);
           const distance = this.currentPos.distanceTo(ambiPos);
           if (distance < lowestDistance) {
             lowestDistance = distance;
             ambulance = res.payload.doc.data();
             id = res.payload.doc.id;
+            console.log(id);
           }
         }
 
         this.afs.collection('driver').doc(ambulance.driverId).snapshotChanges().subscribe(async driverres => {
-          // await this.sendNotification([(driverres.payload.data() as any).playerid], 'You have new ambulance request').then(_ => {
-          //   resolve(id);
-          // });
+          await this.sendNotification([(driverres.payload.data() as any).playerid], 'You have new ambulance request').then(_ => {
+            resolve(id);
+          });
         });
       });
     });
