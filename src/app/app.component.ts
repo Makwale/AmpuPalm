@@ -47,17 +47,20 @@ export class AppComponent implements OnInit {
 
     this.auth.user.subscribe(async user => {
       if (user) {
-        await this.oneSignal.getIds().then(async oneSignalRes => {
-          await this.afs.collection('user').doc(user.uid).update({
-            playerid: oneSignalRes.userId
-          });
-        });
+        // await this.oneSignal.getIds().then(async oneSignalRes => {
+        //   await this.afs.collection('user').doc(user.uid).update({
+        //     playerid: oneSignalRes.userId
+        //   });
+        // });
         this.afs.collection('user').doc(user.uid).snapshotChanges().subscribe(results => {
+          console.log(results.payload.data());
           const userdata: User = results.payload.data() as User;
-          userdata.id = user.uid;
+          userdata.id = user?.uid;
           this.afs.collection('address', ref => ref.where('userid', '==', user.uid)).snapshotChanges().subscribe(async addressResults => {
             userdata.address = addressResults[0]?.payload.doc?.data() as Address;
-            userdata.address.id = addressResults[0]?.payload.doc?.id;
+            if (userdata.address) {
+              userdata.address.id = addressResults[0]?.payload.doc?.id;
+            }
             if (userdata.nxtKinId) {
               this.afs.collection('user').doc(userdata?.nxtKinId).snapshotChanges().subscribe(async nxtKinData => {
                 userdata.nextOfKin = nxtKinData?.payload?.data();

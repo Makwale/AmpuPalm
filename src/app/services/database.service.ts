@@ -87,9 +87,11 @@ export class DatabaseService {
         status: 'pending'
       }).then(async _ => {
         this.ourToast('Ambulance requested', 'success');
-        await Promise.all([
-          this.sendNotification([this.acs.user.nextOfKin?.playerId], 'Next of kin test mode')
-        ]);
+        if (this.acs.user.nextOfKin) {
+          // await Promise.all([
+          //   this.sendNotification([this.acs.user.nextOfKin?.playerId], 'Next of kin test mode')
+          // ]);
+        }
       }).catch(error => {
         this.ourToast('Something wrong happened', 'danger');
       });
@@ -113,9 +115,9 @@ export class DatabaseService {
         }
 
         this.afs.collection('driver').doc(ambulance.driverId).snapshotChanges().subscribe(async driverres => {
-          await this.sendNotification([(driverres.payload.data() as any).playerid], 'Driver Test mode').then(_ => {
-            resolve(id);
-          });
+          // await this.sendNotification([(driverres.payload.data() as any).playerid], 'You have new ambulance request').then(_ => {
+          //   resolve(id);
+          // });
         });
       });
     });

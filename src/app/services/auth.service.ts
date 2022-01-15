@@ -46,11 +46,11 @@ export class AuthService {
     this.oneSignal.endInit();
     this.afa.signInWithEmailAndPassword(email, password)
       .then(async res => {
-        await this.oneSignal.getIds().then(async oneSignalRes => {
-          await this.afs.collection('user').doc(res.user.uid).update({
-            playerid: oneSignalRes.userId
-          });
-        });
+        // await this.oneSignal.getIds().then(async oneSignalRes => {
+        //   await this.afs.collection('user').doc(res.user.uid).update({
+        //     playerid: oneSignalRes.userId
+        //   });
+        // });
         this.acs.loginStatus = true;
         this.afs.collection('user').doc(res.user.uid).snapshotChanges().subscribe(async results => {
           const userdata: User = results.payload.data() as User;
@@ -123,7 +123,6 @@ export class AuthService {
           email: signUpForm.controls.email.value,
           imgURL: '',
           nxtKinId,
-          phone: signUpForm.controls.phone.value
         }).then(res => {
           this.afs.collection('address').add({
             houseNo: physAddress.controls.houseNo.value,
@@ -140,7 +139,7 @@ export class AuthService {
             });
             toast.present();
 
-            // this.router.navigateByUrl('signin');
+            this.router.navigateByUrl('menu/home');
           });
 
         }).catch(async error => {

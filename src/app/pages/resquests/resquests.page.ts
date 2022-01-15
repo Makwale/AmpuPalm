@@ -52,7 +52,7 @@ export class ResquestsPage implements OnInit {
 
   callDriver(req: AmbulanceRequest) {
     console.log(req.ambulance.driver.phone);
-    this.callNumber.callNumber(req.ambulance.driver.phone, true)
+    this.callNumber.callNumber('+27' + req.ambulance.driver.phone, true)
       .then(res => console.log('Launched dialer!', res))
       .catch(err => console.log('Error launching dialer', err));
   }
