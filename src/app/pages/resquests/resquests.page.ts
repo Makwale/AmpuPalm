@@ -35,7 +35,11 @@ export class ResquestsPage implements OnInit {
             req.ambulance.driver.driverId = driverData.payload.id;
           });
         });
-        if (!this.searchRequest(req)) { this.requests.push(req); }
+        if (!this.searchRequest(req)) {
+          if (req.status !== 'attended') {
+            this.requests.push(req);
+          }
+        }
         console.log(req.ambulance);
       }
       this.isLoading = true;
@@ -59,7 +63,6 @@ export class ResquestsPage implements OnInit {
 
   async cancel(req: AmbulanceRequest) {
     const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
       header: 'Confirm!',
       message: 'Are you sure?',
       buttons: [
