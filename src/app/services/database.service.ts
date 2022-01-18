@@ -210,12 +210,17 @@ export class DatabaseService {
     });
   }
   changeStatus(value: any) {
-    this.afs.collection('ambulance').doc(this.acs.user.ambiId).update({
-      status: value
-    }).then(() => {
-      this.ourToast('Status changed', 'success');
-    }).catch(error => {
-      this.ourToast(error, 'danger');
+    this.getCurrentLocation().then(res => {
+      this.afs.collection('ambulance').doc(this.acs.user.ambiId).update({
+        status: value,
+        geo: res
+      }).then(() => {
+        this.ourToast('Status changed', 'success');
+      }).catch(error => {
+        this.ourToast(error, 'danger');
+      });
     });
+
   }
+
 }
