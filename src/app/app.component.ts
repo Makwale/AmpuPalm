@@ -26,7 +26,8 @@ export class AppComponent implements OnInit {
     private afs: AngularFirestore,
     private speechRecognition: SpeechRecognition,
     public loadingController: LoadingController,
-    private oneSignal: OneSignal) { }
+    private oneSignal: OneSignal,
+    private as: AuthService) { }
   async ngOnInit() {
     this.oneSignal.startInit(environment.appId, environment.projectId);
     this.oneSignal.endInit();
@@ -38,7 +39,6 @@ export class AppComponent implements OnInit {
     //   }
     // });
 
-
     this.auth.authState.subscribe(async user => {
       if (user) {
         const loading = await this.loadingController.create({
@@ -47,13 +47,13 @@ export class AppComponent implements OnInit {
           message: 'Please wait...',
         });
         await loading.present();
-        await this.oneSignal.getIds().then(async oneSignalRes => {
-          await this.afs.collection('user').doc(user.uid).update({
-            playerid: oneSignalRes.userId
-          });
-        });
+        // await this.oneSignal.getIds().then(async oneSignalRes => {
+        //   await this.afs.collection('user').doc(user.uid).update({
+        //     playerid: oneSignalRes.userId
+        //   });
+        // });
         console.log(user);
-        this.afs.collection('user').doc(user.uid).snapshotChanges().subscribe(results => {
+        this.afs.collection('user').doc(user?.uid).snapshotChanges().subscribe(results => {
           console.log(results.payload.data());
           const userdata: User = results.payload.data() as User;
           userdata.id = user?.uid;
