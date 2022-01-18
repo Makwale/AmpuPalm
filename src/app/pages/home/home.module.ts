@@ -7,14 +7,15 @@ import { HomePage } from './home.page';
 import { HomePageRoutingModule } from './home-routing.module';
 import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
 import { MatMenuModule } from '@angular/material/menu';
-
+import { MatPaginatorModule } from '@angular/material/paginator';
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
     HomePageRoutingModule,
-    MatMenuModule
+    MatMenuModule,
+    MatPaginatorModule
   ],
   declarations: [HomePage],
   providers: [SpeechRecognition]

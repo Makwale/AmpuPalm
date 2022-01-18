@@ -101,6 +101,7 @@ export class HomePage implements OnInit, DoCheck {
       this.dbs.ourToast('Status changed', 'success');
     });
     if (status === 'onway') {
+      this.dbs.isTracking = true;
       this.dbs.updatAmbiLocation();
     }
   }

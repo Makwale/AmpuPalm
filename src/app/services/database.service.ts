@@ -21,7 +21,7 @@ declare let MapboxDirections;
   providedIn: 'root'
 })
 export class DatabaseService {
-
+  isTracking = false;
   currentPos;
   userRequestId;
   constructor(private afs: AngularFirestore,

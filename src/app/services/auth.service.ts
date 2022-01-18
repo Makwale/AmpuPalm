@@ -65,11 +65,15 @@ export class AuthService {
             this.acs.user = userdata;
             this.acs.loginStatus = true;
             this.clicked = false;
-            this.router.navigateByUrl('menu/home');
+            if (!this.dbs.isTracking) {
+              this.router.navigateByUrl('menu/home');
+            }
           });
 
         });
-        this.router.navigateByUrl('/menu/home');
+        if (!this.dbs.isTracking) {
+          this.router.navigateByUrl('menu/home');
+        }
       }).catch(error => {
         this.clicked = false;
         this.ourToast(error.message, 'danger');
