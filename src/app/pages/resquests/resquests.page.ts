@@ -40,6 +40,15 @@ export class ResquestsPage implements OnInit {
         if (!this.searchRequest(req)) {
           if (req.status !== 'attended') {
             this.requests.push(req);
+            this.requests.sort((a, b) => {
+              if (a.createdAt < b.createdAt) {
+                return 1;
+              }
+              if (a.createdAt > b.createdAt) {
+                return -1;
+              }
+              return 0;
+            });
           }
         }
         console.log(req.ambulance);
