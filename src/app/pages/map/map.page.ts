@@ -5,6 +5,7 @@ import { TrackingService } from 'src/app/services/tracking.service';
 import { LoadingController } from '@ionic/angular';
 import { MapboxStyleSwitcherControl } from 'mapbox-gl-style-switcher';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { LaunchNavigator, LaunchNavigatorOptions } from '@awesome-cordova-plugins/launch-navigator/ngx';
 
 declare let mapboxgl: any;
 // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -27,7 +28,8 @@ export class MapPage implements OnInit {
     private dbs: DatabaseService,
     public loadingController: LoadingController,
     private activatedRoute: ActivatedRoute,
-    private afs: AngularFirestore) {
+    private afs: AngularFirestore,
+    private launchNavigator: LaunchNavigator) {
 
   }
 
@@ -77,21 +79,32 @@ export class MapPage implements OnInit {
 
   locateUser() {
     console.log(this.dbs.userRequestId);
-    this.dbs.locateUser().subscribe((data: any) => {
-      console.log(data.geo);
-      this.afs.collection('user').doc(data.userId).valueChanges().subscribe((userdata: any) => {
-        this.busMarker = new mapboxgl.Marker({
-          color: '#04081f'
-        }).setLngLat([data.geo[1], data.geo[0]]).addTo(this.map);
-        new mapboxgl.Popup({
-          closeButton: false,
-          anchor: 'top',
-          closeOnClick: false
-        }).setText(
-          `Made by: ${userdata?.firstname} ${userdata?.lastname}. Reason being ${data?.reason}`
-        ).setLngLat([data.geo[1], data.geo[0]]).addTo(this.map);
-      });
-    });
+    const options: LaunchNavigatorOptions = {
+      start: 'London, ON',
+      app: this.launchNavigator.APP.GOOGLE_MAPS
+    };
+
+    this.launchNavigator.navigate('Toronto, ON', options)
+      .then(
+        success => this.dbs.ourToast('Launched navigator', 'success'),
+        error => this.dbs.ourToast('Error launching navigator', 'danger')
+      );
+    // this.dbs.locateUser().subscribe((data: any) => {
+    //   console.log(data.geo);
+    //   this.afs.collection('user').doc(data.userId).valueChanges().subscribe((userdata: any) => {
+    //     this.busMarker = new mapboxgl.Marker({
+    //       color: '#04081f'
+    //     }).setLngLat([data.geo[1], data.geo[0]]).addTo(this.map);
+    //     new mapboxgl.Popup({
+    //       closeButton: false,
+    //       anchor: 'top',
+    //       closeOnClick: false
+    //     }).setText(
+    //       `Made by: ${userdata?.firstname} ${userdata?.lastname}. Reason being ${data?.reason}`
+    //     ).setLngLat([data.geo[1], data.geo[0]]).addTo(this.map);
+
+
+    // });
 
   }
 

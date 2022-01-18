@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 
+import { DatabaseService } from 'src/app/services/database.service';
+
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.page.html',
@@ -14,8 +16,12 @@ export class SigninPage implements OnInit {
   password;
   clicked = false;
   isReset = false;
-  constructor(private router: Router, private auth: AuthService, private afa: AngularFireAuth,
-    private toastController: ToastController) { }
+  constructor(
+    private router: Router,
+    private auth: AuthService,
+    private afa: AngularFireAuth,
+    private toastController: ToastController,
+    private dbs: DatabaseService) { }
 
   ngOnInit() {
   }
