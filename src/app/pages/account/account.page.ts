@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, OnInit, ViewChild } from '@angular/core';
+import { Component, DoCheck, ElementRef, EventEmitter, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from '@angular/router';
@@ -21,7 +21,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   templateUrl: './account.page.html',
   styleUrls: ['./account.page.scss'],
 })
-export class AccountPage implements OnInit {
+export class AccountPage implements OnInit, DoCheck {
 
   @ViewChild('main') ionContent: ElementRef;
   accountForm: FormGroup;
@@ -52,11 +52,13 @@ export class AccountPage implements OnInit {
       phone: [''],
       email: ['']
     });
+  }
+
+  ngDoCheck() {
     this.accountForm.controls.firstname.setValue(this.acs.user.firstname);
     this.accountForm.controls.lastname.setValue(this.acs.user.lastname);
     this.accountForm.controls.phone.setValue(this.acs.user.phone);
     this.accountForm.controls.email.setValue(this.acs.user.email);
-
   }
 
   get firstname() { return this.accountForm.get('firstname'); }

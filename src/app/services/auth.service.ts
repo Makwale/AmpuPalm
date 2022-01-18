@@ -46,11 +46,11 @@ export class AuthService {
     this.oneSignal.endInit();
     this.afa.signInWithEmailAndPassword(email, password)
       .then(async res => {
-        await this.oneSignal.getIds().then(async oneSignalRes => {
-          await this.afs.collection('driver').doc(res.user.uid).update({
-            playerid: oneSignalRes.userId
-          });
-        });
+        // await this.oneSignal.getIds().then(async oneSignalRes => {
+        //   await this.afs.collection('driver').doc(res.user.uid).update({
+        //     playerid: oneSignalRes.userId
+        //   });
+        // });
         this.acs.loginStatus = true;
         this.afs.collection('driver').doc(res.user.uid).snapshotChanges().subscribe(async results => {
           this.afs.collection('ambulance', ref => ref.where('driverId', '==', res.user.uid)).snapshotChanges().subscribe(ambiData => {
