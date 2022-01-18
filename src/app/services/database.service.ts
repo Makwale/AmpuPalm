@@ -106,21 +106,22 @@ export class DatabaseService {
     return new Promise(resolve => {
       this.afs.collection('ambulance', ref => ref.where('status', '==', 'available')).snapshotChanges().subscribe(results => {
         for (const res of results) {
+          console.log(res);
           const ambiPos = new mapboxgl.LngLat((res.payload.doc.data() as any).geo[1], (res.payload.doc.data() as any).geo[0]);
           const distance = this.currentPos.distanceTo(ambiPos);
           if (distance < lowestDistance) {
             lowestDistance = distance;
             ambulance = res.payload.doc.data();
             id = res.payload.doc.id;
-            console.log(id);
           }
         }
-
-        this.afs.collection('driver').doc(ambulance.driverId).snapshotChanges().subscribe(async driverres => {
-          await this.sendNotification([(driverres.payload.data() as any).playerid], 'You have new ambulance request').then(_ => {
-            resolve(id);
+        if (ambulance) {
+          this.afs.collection('driver').doc(ambulance.driverId).snapshotChanges().subscribe(async driverres => {
+            await this.sendNotification([(driverres.payload.data() as any)?.playerid], 'You have new ambulance request').then(_ => {
+              resolve(id);
+            });
           });
-        });
+        }
       });
     });
   }

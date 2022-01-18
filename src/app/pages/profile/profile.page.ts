@@ -3,6 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { PopoverController } from '@ionic/angular';
 import { AccountService } from 'src/app/services/account.service';
+import { DatabaseService } from 'src/app/services/database.service';
 
 @Component({
   selector: 'app-profile',
@@ -12,7 +13,8 @@ import { AccountService } from 'src/app/services/account.service';
 export class ProfilePage implements OnInit {
 
   constructor(private router: Router, private afa: AngularFireAuth,
-    private acs: AccountService, public popoverController: PopoverController) { }
+    private acs: AccountService, public popoverController: PopoverController,
+    private dbs: DatabaseService) { }
 
   ngOnInit() {
   }
@@ -30,7 +32,7 @@ export class ProfilePage implements OnInit {
       this.acs.user = undefined;
       console.log(this.acs.user);
       await this.popoverController.dismiss();
-      this.router.navigateByUrl('');
+      this.router.navigateByUrl('menu/signin');
 
     });
 

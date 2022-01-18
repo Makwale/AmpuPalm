@@ -1,6 +1,6 @@
 {
 	"appId": "com.user.test",
-	"appName": "Ambipalm",
+	"appName": "AmbiPalm",
 	"webDir": "www",
 	"bundledWebRuntime": false
 }

@@ -37,21 +37,22 @@ export class AppComponent implements OnInit {
     //     this.speechRecognition.requestPermission();
     //   }
     // });
-    const loading = await this.loadingController.create({
-      spinner: 'dots',
-      cssClass: 'my-custom-class',
-      message: 'Please wait...',
-      duration: 2000,
-    });
-    await loading.present();
 
-    this.auth.user.subscribe(async user => {
+
+    this.auth.authState.subscribe(async user => {
       if (user) {
-        // await this.oneSignal.getIds().then(async oneSignalRes => {
-        //   await this.afs.collection('user').doc(user.uid).update({
-        //     playerid: oneSignalRes.userId
-        //   });
-        // });
+        const loading = await this.loadingController.create({
+          spinner: 'dots',
+          cssClass: 'my-custom-class',
+          message: 'Please wait...',
+        });
+        await loading.present();
+        await this.oneSignal.getIds().then(async oneSignalRes => {
+          await this.afs.collection('user').doc(user.uid).update({
+            playerid: oneSignalRes.userId
+          });
+        });
+        console.log(user);
         this.afs.collection('user').doc(user.uid).snapshotChanges().subscribe(results => {
           console.log(results.payload.data());
           const userdata: User = results.payload.data() as User;
@@ -67,18 +68,19 @@ export class AppComponent implements OnInit {
                 userdata.nextOfKin.id = userdata?.nxtKinId;
                 this.acs.user = userdata;
                 this.acs.loginStatus = true;
-                await loading.onDidDismiss();
+                await loading.dismiss();
                 this.router.navigateByUrl('menu/home');
               });
             } else {
               this.acs.user = userdata;
               this.acs.loginStatus = true;
-              await loading.onDidDismiss();
+              await loading.dismiss();
               this.router.navigateByUrl('menu/home');
             }
           });
         });
       } else {
+
         this.router.navigateByUrl('menu/signup');
       }
     });

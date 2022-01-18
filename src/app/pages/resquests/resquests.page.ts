@@ -20,6 +20,8 @@ export class ResquestsPage implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
+  }
+  ionViewDidEnter() {
     this.dbs.getAmublanceRequests().subscribe(async data => {
       console.log(data);
       for (const request of data) {
@@ -88,10 +90,15 @@ export class ResquestsPage implements OnInit {
     await alert.present();
   }
 
+  ionViewWillLeave() {
+    this.requests = [];
+  }
+
   track(request: AmbulanceRequest) {
-    // if (request.status === 'onway') {
-    //   this.router.navigate(['menu/map'], { queryParams: { req: request } });
-    // }
-    this.router.navigate(['menu/map'], { queryParams: { id: request.ambulance.id } });
+    if (request.status === 'onway') {
+      this.router.navigate(['menu/map'], { queryParams: { id: request.ambulance.id } });
+    } else {
+      this.dbs.ourToast('Ambulance GPS is currently disabled', 'warning');
+    }
   }
 }

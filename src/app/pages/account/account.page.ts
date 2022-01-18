@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, DoCheck, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from '@angular/router';
@@ -20,7 +20,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   templateUrl: './account.page.html',
   styleUrls: ['./account.page.scss'],
 })
-export class AccountPage implements OnInit {
+export class AccountPage implements OnInit, DoCheck {
 
   @ViewChild('main') ionContent: ElementRef;
   accountForm: FormGroup;
@@ -70,19 +70,6 @@ export class AccountPage implements OnInit {
     });
 
     console.log(this.acs.user);
-
-    this.accountForm.controls.firstname.setValue(this.acs.user.firstname);
-    this.accountForm.controls.lastname.setValue(this.acs.user.lastname);
-    this.accountForm.controls.email.setValue(this.acs.user.email);
-    this.physAddressForm.controls.houseNo.setValue(this.acs.user.address.houseNo);
-    this.physAddressForm.controls.streetName.setValue(this.acs.user.address.streetName);
-    this.physAddressForm.controls.town.setValue(this.acs.user.address.town);
-    this.physAddressForm.controls.postalCode.setValue(this.acs.user.address.postalCode);
-    if (this.acs.user.nextOfKin) {
-      this.nxtKinForm.controls.firstname.setValue(this.acs.user.nextOfKin.firstname);
-      this.nxtKinForm.controls.lastname.setValue(this.acs.user.nextOfKin.lastname);
-      this.nxtKinForm.controls.email.setValue(this.acs.user.nextOfKin.email);
-    }
   }
 
   get firstname() { return this.accountForm.get('firstname'); }
@@ -103,6 +90,21 @@ export class AccountPage implements OnInit {
   signup() {
     // this.auth.signup(this.accountForm.value["firstname"], this.accountForm.value["lastname"],
     // this.accountForm.value["phone"], this.accountForm.value["email"], this.accountForm.value["password"])
+  }
+
+  ngDoCheck() {
+    this.accountForm.controls.firstname.setValue(this.acs?.user?.firstname);
+    this.accountForm.controls.lastname.setValue(this.acs?.user?.lastname);
+    this.accountForm.controls.email.setValue(this.acs?.user?.email);
+    this.physAddressForm.controls.houseNo.setValue(this.acs?.user?.address?.houseNo);
+    this.physAddressForm.controls.streetName.setValue(this.acs?.user?.address?.streetName);
+    this.physAddressForm.controls.town.setValue(this.acs?.user?.address?.town);
+    this.physAddressForm.controls.postalCode.setValue(this.acs?.user?.address?.postalCode);
+    if (this.acs?.user?.nextOfKin) {
+      this.nxtKinForm.controls.firstname.setValue(this.acs?.user?.nextOfKin?.firstname);
+      this.nxtKinForm.controls.lastname.setValue(this.acs?.user?.nextOfKin?.lastname);
+      this.nxtKinForm.controls.email.setValue(this.acs?.user?.nextOfKin?.email);
+    }
   }
 
   fnameEnable() {
@@ -203,7 +205,7 @@ export class AccountPage implements OnInit {
       this.addNxtKinForm?.setValue({
         email: ''
       });
-      alert('Next of kin added');
+      this.dbs.ourToast('Next of kin added', 'success');
     });
   }
 
@@ -220,7 +222,6 @@ export class AccountPage implements OnInit {
 
   async deleteNxtKin() {
     const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
       header: 'Confirm!',
       message: 'Are you sure?',
       buttons: [
@@ -235,6 +236,8 @@ export class AccountPage implements OnInit {
           handler: () => {
             this.dbs.deleteNxtKin().then(_ => {
               this.acs.user.nextOfKin = undefined;
+              this.dbs.ourToast('Next of kin removed', 'success');
+
             });
           }
         }
@@ -245,11 +248,6 @@ export class AccountPage implements OnInit {
   }
 
   ionViewWillLeave() {
-    // this.accountForm = undefined;
-    // this.physAddressForm = undefined;
-    // this.nxtKinForm = undefined;
-    // this.addNxtKinForm = undefined;
-    console.log('will leave');
   }
 
 

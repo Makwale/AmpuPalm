@@ -160,15 +160,15 @@
   </form>
 
   <ion-item-divider>
-    <ion-icon *ngIf="acs.user.nextOfKin" slot="start" size="small" color="danger" name="trash-outline"
+    <ion-icon *ngIf="acs?.user?.nextOfKin" slot="start" size="small" color="danger" name="trash-outline"
       (click)="deleteNxtKin()"></ion-icon>
-    <ion-icon *ngIf="!acs.user.nextOfKin" color="ourtheme" size="small" name="person-add-outline"
+    <ion-icon *ngIf="!acs.user?.nextOfKin" color="ourtheme" size="small" name="person-add-outline"
       (click)="isAddNextOfKin(main)"></ion-icon>
     <ion-label slot="end" color="sec" class="ion-margin">
       Next of kin
     </ion-label>
   </ion-item-divider>
-  <form [formGroup]="nxtKinForm" *ngIf="acs.user.nextOfKin">
+  <form [formGroup]="nxtKinForm" *ngIf="acs?.user?.nextOfKin">
     <ion-item class="input ion-margin">
       <ion-label color="sec" position="stacked">First Name</ion-label>
       <ion-input disabled style="font-weight: bold; font-size: 91%;" formControlName="firstname"></ion-input>

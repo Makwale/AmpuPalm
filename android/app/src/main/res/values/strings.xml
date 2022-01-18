@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Ambipalm</string>
-    <string name="title_activity_main">Ambipalm</string>
+    <string name="app_name">AmbiPalm</string>
+    <string name="title_activity_main">AmbiPalm</string>
     <string name="package_name">com.user.test</string>
     <string name="custom_url_scheme">com.user.test</string>
 </resources>
