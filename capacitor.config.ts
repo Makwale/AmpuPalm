@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.test.driver',
+  appId: 'com.driver.test',
   appName: 'AmpiPalmDriver',
   webDir: 'www',
   bundledWebRuntime: false

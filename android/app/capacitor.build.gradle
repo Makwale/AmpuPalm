@@ -10,14 +10,10 @@ android {
 apply from: "../capacitor-cordova-android-plugins/cordova.variables.gradle"
 dependencies {
 
-    implementation "com.google.android.gms:play-services-location:11+"
-    implementation "com.android.support:support-v4:26+"
-    implementation "com.android.support:appcompat-v7:26+"
     implementation "com.onesignal:OneSignal:3.16.0"
     implementation "com.android.support:support-v4:27.+"
     implementation "com.squareup.okhttp3:okhttp:3.12.0"
 }
-apply from: "../../node_modules/@mauron85/cordova-plugin-background-geolocation/android/dependencies.gradle"
 apply from: "../../node_modules/cordova-plugin-badge/src/android/badge.gradle"
 apply from: "../../node_modules/onesignal-cordova-plugin/build-extras-onesignal.gradle"
 apply from: "../../node_modules/phonegap-plugin-barcodescanner/src/android/barcodescanner.gradle"

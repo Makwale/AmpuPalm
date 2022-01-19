@@ -5,8 +5,6 @@ import { TrackingService } from 'src/app/services/tracking.service';
 import { LoadingController } from '@ionic/angular';
 import { MapboxStyleSwitcherControl } from 'mapbox-gl-style-switcher';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { LaunchNavigator, LaunchNavigatorOptions } from '@awesome-cordova-plugins/launch-navigator/ngx';
-
 declare let mapboxgl: any;
 // eslint-disable-next-line @typescript-eslint/naming-convention
 declare let MapboxDirections;
@@ -29,8 +27,7 @@ export class MapPage implements OnInit {
     private dbs: DatabaseService,
     public loadingController: LoadingController,
     private activatedRoute: ActivatedRoute,
-    private afs: AngularFirestore,
-    private launchNavigator: LaunchNavigator) {
+    private afs: AngularFirestore) {
 
   }
 
