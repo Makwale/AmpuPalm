@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">AmpiPalmDriver</string>
-    <string name="title_activity_main">AmpiPalmDriver</string>
-    <string name="package_name">com.driver.test</string>
-    <string name="custom_url_scheme">com.driver.test</string>
+    <string name="app_name">AmbiPalmDriver</string>
+    <string name="title_activity_main">AmbiPalmDriver</string>
+    <string name="package_name">com.test.driver</string>
+    <string name="custom_url_scheme">com.test.driver</string>
 </resources>

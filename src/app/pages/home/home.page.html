@@ -8,10 +8,12 @@
       <ion-label
         style="background-color: #f5757931; color: #f5757a; border-radius: 15px; font-weight: 700; padding-left: 15px; padding-top: 3px; padding-bottom: 3px;"
         slot="start"> {{ request.data.createdAt | date:
-        'MM/dd/yyyy'}} </ion-label>
+        'MM/dd/yyyy'}} {{ request.data.createdAt | date: 'hh:mm'}}</ion-label>
       <ion-label
-        style="background-color: #04081f34; color: #04081f; border-radius: 15px; font-weight: 700; padding-left: 6px; padding-top: 3px; padding-bottom: 3px;"
-        slot="end"> {{ request.data.createdAt | date: 'hh:mm'}} </ion-label>
+        style="padding-top: 3px; padding-bottom: 3px;text-align: center;width: fit-content;margin-right: 10px;background-color: #99f5753f; color: #346319; border-radius: 15px; font-weight: 700;"
+        slot="">
+        {{ request.data.status}} </ion-label>
+
     </ion-item>
     <ion-item-options>
       <ion-item-option [matMenuTriggerFor]="menu" color="sec">

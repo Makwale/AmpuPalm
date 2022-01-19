@@ -1,4 +1,4 @@
-package com.driver.test;
+package com.test.driver;
 
 import com.getcapacitor.BridgeActivity;
 

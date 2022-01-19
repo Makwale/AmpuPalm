@@ -83,6 +83,9 @@ export class HomePage implements OnInit, DoCheck {
           data: tempdata,
         };
       });
+      this.requests = this.requests.filter(request => request.data.status === 'onway' ||
+        request.data.status === 'pending' || request.data.status === 'accepted');
+
       this.requests.sort((a, b) => {
         if (a.data.createdAt < b.data.createdAt) {
           return 1;
