@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DoCheck, OnInit } from '@angular/core';
 import { DatabaseService } from 'src/app/services/database.service';
 import { AmbulanceRequest } from '../../modells/request.model';
 import { CallNumber } from '@ionic-native/call-number/ngx';
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   templateUrl: './resquests.page.html',
   styleUrls: ['./resquests.page.scss'],
 })
-export class ResquestsPage implements OnInit {
+export class ResquestsPage implements OnInit, DoCheck {
   defaultPic = 'assets/driver.jpg';
   requests: AmbulanceRequest[] = [];
   isLoading: boolean;
@@ -21,7 +21,15 @@ export class ResquestsPage implements OnInit {
 
   ngOnInit() {
   }
+
+  ngDoCheck(): void {
+  }
+
   ionViewDidEnter() {
+    this.getRequests();
+  }
+
+  getRequests() {
     this.dbs.getAmublanceRequests().subscribe(async data => {
       console.log(data);
       for (const request of data) {
@@ -109,5 +117,13 @@ export class ResquestsPage implements OnInit {
     } else {
       this.dbs.ourToast('Ambulance GPS is currently disabled', 'warning');
     }
+  }
+
+  doRefresh(event: any) {
+    this.requests = [];
+    this.getRequests();
+    setTimeout(() => {
+      event.target.complete();
+    }, 3000);
   }
 }

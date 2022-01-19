@@ -11,6 +11,7 @@ import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
 import { LoadingController } from '@ionic/angular';
 import { OneSignal } from '@ionic-native/onesignal/ngx';
 import { environment } from 'src/environments/environment';
+import { DatabaseService } from './services/database.service';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -27,7 +28,8 @@ export class AppComponent implements OnInit {
     private speechRecognition: SpeechRecognition,
     public loadingController: LoadingController,
     private oneSignal: OneSignal,
-    private as: AuthService) { }
+    private as: AuthService,
+    private dbs: DatabaseService) { }
   async ngOnInit() {
     this.oneSignal.startInit(environment.appId, environment.projectId);
     this.oneSignal.endInit();
@@ -47,11 +49,11 @@ export class AppComponent implements OnInit {
           message: 'Please wait...',
         });
         await loading.present();
-        // await this.oneSignal.getIds().then(async oneSignalRes => {
-        //   await this.afs.collection('user').doc(user.uid).update({
-        //     playerid: oneSignalRes.userId
-        //   });
-        // });
+        await this.oneSignal.getIds().then(async oneSignalRes => {
+          await this.afs.collection('user').doc(user.uid).update({
+            playerid: oneSignalRes.userId
+          });
+        });
         console.log(user);
         this.afs.collection('user').doc(user?.uid).snapshotChanges().subscribe(results => {
           console.log(results.payload.data());
@@ -69,13 +71,17 @@ export class AppComponent implements OnInit {
                 this.acs.user = userdata;
                 this.acs.loginStatus = true;
                 await loading.dismiss();
-                this.router.navigateByUrl('menu/home');
+                if (!this.dbs.isUpdating) {
+                  this.router.navigateByUrl('menu/home');
+                }
               });
             } else {
               this.acs.user = userdata;
               this.acs.loginStatus = true;
               await loading.dismiss();
-              this.router.navigateByUrl('menu/home');
+              if (!this.dbs.isUpdating) {
+                this.router.navigateByUrl('menu/home');
+              }
             }
           });
         });

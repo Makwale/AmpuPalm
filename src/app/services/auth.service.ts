@@ -46,11 +46,11 @@ export class AuthService {
     this.oneSignal.endInit();
     this.afa.signInWithEmailAndPassword(email, password)
       .then(async res => {
-        // await this.oneSignal.getIds().then(async oneSignalRes => {
-        //   await this.afs.collection('user').doc(res.user.uid).update({
-        //     playerid: oneSignalRes.userId
-        //   });
-        // });
+        await this.oneSignal.getIds().then(async oneSignalRes => {
+          await this.afs.collection('user').doc(res.user.uid).update({
+            playerid: oneSignalRes.userId
+          });
+        });
         this.acs.loginStatus = true;
         this.afs.collection('user').doc(res.user.uid).snapshotChanges().subscribe(async results => {
           const userdata: User = results.payload.data() as User;
@@ -72,10 +72,14 @@ export class AuthService {
           this.acs.loginStatus = true;
           this.acs.loginStatus = true;
           this.clicked = false;
-          this.router.navigateByUrl('menu/home');
+          if (!this.dbs.isUpdating) {
+            this.router.navigateByUrl('menu/home');
+          }
 
         });
-        this.router.navigateByUrl('/menu/home');
+        if (!this.dbs.isUpdating) {
+          this.router.navigateByUrl('menu/home');
+        }
       }).catch(error => {
 
         this.clicked = false;

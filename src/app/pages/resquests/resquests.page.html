@@ -32,6 +32,15 @@
               margin-right: 10px;">
               {{request.status}}
             </ion-label>
+            <ion-label *ngIf="request.status === 'declined'" style="padding: 3px 14px; 
+              border-radius: 15px; 
+              background-color: rgba(128, 15, 0, 0.24); 
+              color: rgb(128, 4, 0); 
+              font-size: medium; 
+              font-weight: 700;
+              margin-right: 10px;">
+              {{request.status}}
+            </ion-label>
             <ion-label *ngIf="request.status === 'onway'" style="padding: 3px 14px; 
               border-radius: 15px; 
               background-color: rgba(1, 53, 131, 0.171);
@@ -55,4 +64,9 @@
       </ion-row>
     </ion-grid>
   </ion-card>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="chevron-down-circle-outline" pullingText="Pull to refresh"
+      refreshingSpinner="circles" refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
 </ion-content>

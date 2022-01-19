@@ -159,16 +159,17 @@ export class AccountPage implements OnInit, DoCheck {
   }
 
   save(section: string) {
+    this.dbs.isUpdating = true;
     switch (section) {
       case 'pers_info':
         this.dbs.updatePersInfo(this.accountForm).then(_ => {
           this.isPerInfoEdit = !this.isPerInfoEdit;
-          alert('Personal info updated');
+          this.dbs.ourToast('Personal info updated', 'success');
         });
         break;
       case 'address':
         this.dbs.updateAddress(this.physAddressForm).then(_ => {
-          alert('Physical address updated');
+          this.dbs.ourToast('Physical address updated', 'success');
           this.isAddressEdit = !this.isAddressEdit;
         });
         break;
@@ -198,6 +199,7 @@ export class AccountPage implements OnInit, DoCheck {
   }
 
   select() {
+    this.dbs.isUpdating = true;
     this.dbs.addNextOfKin(this.foundNxtOfKin).then(_ => {
       this.acs.user.nextOfKin = this.foundNxtOfKin;
       this.foundNxtOfKin = undefined;
@@ -221,6 +223,7 @@ export class AccountPage implements OnInit, DoCheck {
   }
 
   async deleteNxtKin() {
+    this.dbs.isUpdating = true;
     const alert = await this.alertController.create({
       header: 'Confirm!',
       message: 'Are you sure?',

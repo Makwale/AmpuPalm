@@ -22,6 +22,7 @@ declare let MapboxDirections;
 })
 export class DatabaseService {
   currentPos;
+  isUpdating = false;
   constructor(private afs: AngularFirestore,
     public popoverController: PopoverController,
     private acs: AccountService,
@@ -123,10 +124,10 @@ export class DatabaseService {
         console.log(lowestDistance);
         if (ambulance) {
           this.afs.collection('driver').doc(ambulance.driverId).snapshotChanges().subscribe(async driverres => {
-            resolve(id);
-            await this.sendNotification([(driverres.payload.data() as any)?.playerid], 'You have new ambulance request').then(_ => {
-              resolve(id);
-            });
+            await this.sendNotification([(driverres.payload.data() as any)?.playerid],
+              `You have new ambulance request from ${this.acs.user.firstname} ${this.acs.user.lastname}`).then(_ => {
+                resolve(id);
+              });
           });
         } else {
           this.ourToast('No ambulance was found', 'warning');
