@@ -2,7 +2,7 @@ import { Component, DoCheck, OnInit } from '@angular/core';
 import { DatabaseService } from 'src/app/services/database.service';
 import { AmbulanceRequest } from '../../modells/request.model';
 import { CallNumber } from '@ionic-native/call-number/ngx';
-import { AlertController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-resquests',
@@ -12,12 +12,14 @@ import { Router } from '@angular/router';
 export class ResquestsPage implements OnInit, DoCheck {
   defaultPic = 'assets/driver.jpg';
   requests: AmbulanceRequest[] = [];
+  loading;
   isLoading: boolean;
   constructor(
     private dbs: DatabaseService,
     private callNumber: CallNumber,
     public alertController: AlertController,
-    private router: Router) { }
+    private router: Router,
+    public loadingController: LoadingController) { }
 
   ngOnInit() {
   }
@@ -25,7 +27,13 @@ export class ResquestsPage implements OnInit, DoCheck {
   ngDoCheck(): void {
   }
 
-  ionViewDidEnter() {
+  async ionViewDidEnter() {
+    this.loading = await this.loadingController.create({
+      spinner: 'dots',
+      cssClass: 'my-custom-class',
+      message: 'Please wait...',
+    });
+    await this.loading.present();
     this.getRequests();
   }
 
@@ -61,6 +69,7 @@ export class ResquestsPage implements OnInit, DoCheck {
         }
         console.log(req.ambulance);
       }
+      await this.loading.dismiss();
       this.isLoading = true;
     });
   }

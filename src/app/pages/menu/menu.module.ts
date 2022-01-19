@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { MenuPageRoutingModule } from './menu-routing.module';
 import { OneSignal, OSNotification } from '@ionic-native/onesignal/ngx';
 import { MenuPage } from './menu.page';
+import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
 
 @NgModule({
   imports: [
@@ -16,6 +17,6 @@ import { MenuPage } from './menu.page';
     MenuPageRoutingModule
   ],
   declarations: [MenuPage],
-  providers: [OneSignal]
+  providers: [OneSignal, SpeechRecognition]
 })
-export class MenuPageModule {}
+export class MenuPageModule { }

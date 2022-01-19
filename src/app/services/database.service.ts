@@ -78,8 +78,8 @@ export class DatabaseService {
 
   async requestAmbulance(reason: string[]) {
     this.getCurrentLocation().then(async res => {
-      const ambId = await this.searchNearestAmbulance();
 
+      const ambId = await this.searchNearestAmbulance();
       this.afs.collection('ambulance_request').add({
         userId: this.acs.user.id,
         ambulanceId: ambId,

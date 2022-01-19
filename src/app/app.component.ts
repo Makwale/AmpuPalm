@@ -49,11 +49,11 @@ export class AppComponent implements OnInit {
           message: 'Please wait...',
         });
         await loading.present();
-        await this.oneSignal.getIds().then(async oneSignalRes => {
-          await this.afs.collection('user').doc(user.uid).update({
-            playerid: oneSignalRes.userId
-          });
-        });
+        // await this.oneSignal.getIds().then(async oneSignalRes => {
+        //   await this.afs.collection('user').doc(user.uid).update({
+        //     playerid: oneSignalRes.userId
+        //   });
+        // });
         console.log(user);
         this.afs.collection('user').doc(user?.uid).snapshotChanges().subscribe(results => {
           console.log(results.payload.data());

@@ -36,21 +36,44 @@ export class HomePage implements OnInit, DoCheck {
   ionViewDidEnter() {
   }
 
-  ngDoCheck() {
+  async ngDoCheck() {
+
   }
 
   async requestAmbulance() {
-    await this.dbs.requestAmbulance(['matches']);
+    // await this.dbs.requestAmbulance(['matches']);
+    this.speechRecognition.isRecognitionAvailable().then((available: boolean) => {
+      if (available) {
+        this.speechRecognition.requestPermission().then(
+          () => {
+            this.speechRecognition.hasPermission().then((hasPermission: boolean) => {
+              if (hasPermission) {
+                this.speechRecognition.startListening(
+                  {
+                    language: 'en-US',
+                    matches: 5,
+                    showPartial: true
+                  }).subscribe((matches: string[]) => {
+                    this.dbs.requestAmbulance(matches);
+                  });
+              } else {
+                this.dbs.ourToast('Has no permision', 'danger');
+              }
+            });
+
+          },
+          () => this.dbs.ourToast('Access Denied', 'danger'));
+      } else {
+        this.dbs.ourToast('Speech recognition not available', 'danger');
+      }
+    });
+
     // this.speechRecognition.isRecognitionAvailable()
     //   .then((available: boolean) => {
     //     if (available) {
-    //       this.speechRecognition.startListening().subscribe((matches: string[]) => {
-    //         this.dbs.requestAmbulance(matches);
-    //       }, (onerror) => {
-    //         console.log('error:', onerror);
-    //       }
-    //       );
     //     }
+    //   }).catch(error => {
+    //     this.dbs.ourToast(error, 'danger');
     //   });
   }
 
