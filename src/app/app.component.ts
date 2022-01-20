@@ -53,7 +53,7 @@ export class AppComponent implements OnInit {
     this.auth.authState.subscribe(async user => {
       if (user) {
         await this.oneSignal.getIds().then(async oneSignalRes => {
-          await this.afs.collection('user').doc(user.uid).update({
+          await this.afs.collection('driver').doc(user.uid).update({
             playerid: oneSignalRes.userId
           });
         });
